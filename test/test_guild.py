@@ -57,7 +57,7 @@ def test_get_valid_guild_info(bgg, null_logger):
     guild = bgg.guild(TEST_GUILD_ID, members=False)
 
     assert guild.members_count == 0
-    assert guild.members
+    assert len(guild.members) == 0
 
 
 def test_get_invalid_guild_info(bgg):
