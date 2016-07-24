@@ -562,11 +562,6 @@ class BaseGame(Thing):
         # TODO: document this
         return self._stats.bgg_rank
 
-    @property
-    def boardgame_rank(self):
-        # TODO: mark as deprecated (use bgg_rank instead)
-        return self.bgg_rank
-
 
 class CollectionBoardGame(BaseGame):
     """

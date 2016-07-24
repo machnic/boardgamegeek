@@ -6,6 +6,7 @@ Massive refactoring.
 Splitting Plays into two classes, UserPlays and GamePlays.
 Refactored exceptions
 Most functions don't return ``None`` in case of item not found, but raise an exception
+`BoardGame` and `CollectionBoardGame` don't have the `.boardgame_rank` attribute; use `.bgg_rank` instead.
 
 TODO: allow breaking from fetching pages by raising an exception from the progress callback
 
