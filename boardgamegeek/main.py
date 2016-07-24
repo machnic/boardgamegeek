@@ -3,7 +3,7 @@ import sys
 import argparse
 import logging
 
-from boardgamegeek.api import BGGClient, HOT_ITEM_CHOICES
+from boardgamegeek.api import BGGClient, BGGChoose, BGGHotItemType
 
 log = logging.getLogger("boardgamegeek")
 log_fmt = "[%(levelname)s] %(message)s"
@@ -42,8 +42,8 @@ def main():
 
     p.add_argument("-u", "--user", help="Query by user name")
     p.add_argument("-g", "--game", help="Query by game name")
-    p.add_argument("--most-recent", help="get the most recent game when querying by name (default)", action="store_true")
-    p.add_argument("--most-popular", help="get the most popular (top ranked) game when querying by name", action="store_true")
+    p.add_argument("--most-recent", help="get the most recent game when querying by name", action="store_true")
+    p.add_argument("--most-popular", help="get the most popular (top ranked) game when querying by name (default)", action="store_true")
 
     p.add_argument("-i", "--id", help="Query by game id", type=int)
     p.add_argument("--game-stats", help="Return brief statistics about the game")
@@ -51,7 +51,7 @@ def main():
     p.add_argument("-c", "--collection", help="Query user's collection")
     p.add_argument("-p", "--plays", help="Query user's play list")
     p.add_argument("-P", "--plays-by-game", help="Query a game's plays")
-    p.add_argument("-H", "--hot-items", help="List all hot items by type", choices=HOT_ITEM_CHOICES)
+    p.add_argument("-H", "--hot-items", help="List all hot items by type", choices=BGGHotItemType._valid_values)
     p.add_argument("-S", "--search", help="search and return results")
     p.add_argument("--debug", action="store_true")
     p.add_argument("--retries", help="number of retries to perform in case of timeout or API HTTP 202 code",
@@ -97,12 +97,10 @@ def main():
 
     # query by game name
     if args.game:
-        # fetch the most popular
-        if args.most_popular:
-            game = bgg.game(args.game, choose="best-rank", comments=True)
+        if args.most_recent:
+            game = bgg.game(args.game, choose=BGGChoose.RECENT, comments=False)
         else:
-        # fetch the most recent one
-            game = bgg.game(args.game, choose="recent", comments=True)
+            game = bgg.game(args.game, choose=BGGChoose.BEST_RANK, comments=False)
         game._format(log)
 
     if args.game_stats:
