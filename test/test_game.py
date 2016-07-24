@@ -67,7 +67,7 @@ def check_game(game):
     assert game.rating_num_weights >= 0
     assert type(game.rating_average_weight) == float
 
-    assert type(game.boardgame_rank) == int
+    assert type(game.bgg_rank) == int
 
 
     # check for videos
@@ -157,9 +157,9 @@ def test_get_game_id_by_name(bgg):
     best_rank = 1000000000
     best_id = None
     for g in all_eclipse_games:
-        if g.boardgame_rank is not None and g.boardgame_rank < best_rank:
+        if g.bgg_rank is not None and g.bgg_rank < best_rank:
             best_id = g.id
-            best_rank = g.boardgame_rank
+            best_rank = g.bgg_rank
     assert game_id == best_id
 
 
