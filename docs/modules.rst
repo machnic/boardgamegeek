@@ -8,43 +8,41 @@ Modules
       :inherited-members:
 
 
-.. automodule:: boardgamegeek.collection
+.. automodule:: boardgamegeek.objects.collection
 
-  .. autoclass:: boardgamegeek.collection.Collection
+  .. autoclass:: boardgamegeek.objects.collection.Collection
       :members:
 
 
 .. automodule:: boardgamegeek.exceptions
 
 
-.. automodule:: boardgamegeek.games
+.. automodule:: boardgamegeek.objects.games
 
-  .. autoclass:: boardgamegeek.games.CollectionBoardGame
+  .. autoclass:: boardgamegeek.objects.games.CollectionBoardGame
       :members:
 
-  .. autoclass:: boardgamegeek.games.BoardGame
-      :members:
-
-
-.. automodule:: boardgamegeek.guild
-
-  .. autoclass:: boardgamegeek.guild.Guild
+  .. autoclass:: boardgamegeek.objects.games.BoardGame
       :members:
 
 
-.. automodule:: boardgamegeek.hotitems
+.. automodule:: boardgamegeek.objects.guild
+
+  .. autoclass:: boardgamegeek.objects.guild.Guild
+      :members:
 
 
-.. automodule:: boardgamegeek.plays
+.. automodule:: boardgamegeek.objects.hotitems
 
 
-.. automodule:: boardgamegeek.search
+.. automodule:: boardgamegeek.objects.plays
 
 
-.. automodule:: boardgamegeek.things
+.. automodule:: boardgamegeek.objects.search
 
 
-.. automodule:: boardgamegeek.user
+.. automodule:: boardgamegeek.objects.things
 
 
-.. automodule:: boardgamegeek.utils
+.. automodule:: boardgamegeek.objects.user
+

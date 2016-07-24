@@ -42,8 +42,8 @@ def create_guild_from_xml(xml_root, html_parser):
 def add_guild_members_from_xml(guild, xml_root):
     """
     Processes the XML and adds members to ``guild``
-    :param guild: the :py:class:`boardgamegeek.objects.guild.Guild` object to add members to
-    :param xml_root: XML node
+    :param Guild guild: the :py:class:`boardgamegeek.objects.guild.Guild` object to add members to
+    :param ElementTree xml_root: XML node
     :return: True if at least a member was added, False otherwise
     """
 
