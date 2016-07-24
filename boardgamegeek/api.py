@@ -17,7 +17,6 @@ from __future__ import unicode_literals
 import datetime
 import logging
 import sys
-import warnings
 
 # This is required for decoding HTML entities from the description text
 # of games
@@ -27,7 +26,6 @@ else:
     import HTMLParser as hp
 
 
-from .objects.user import User
 from .objects.search import SearchResult
 
 from .exceptions import BGGApiError, BGGError, BGGItemNotFoundError, BGGValueError
@@ -35,11 +33,7 @@ from .utils import xml_subelement_attr, request_and_parse_xml
 from .utils import RateLimitingAdapter, DEFAULT_REQUESTS_PER_MINUTE
 from .cache import CacheBackendMemory, CacheBackendNone
 
-from .loaders import create_guild_from_xml, add_guild_members_from_xml
-from .loaders import create_plays_from_xml, add_plays_from_xml
-from .loaders import create_hot_items_from_xml, add_hot_items_from_xml
-from .loaders import create_collection_from_xml, add_collection_items_from_xml
-from .loaders import create_game_from_xml, add_game_comments_from_xml
+from .loaders import *
 
 
 log = logging.getLogger("boardgamegeek.api")
@@ -234,7 +228,6 @@ class BGGCommon(object):
 
         return guild
 
-    # TODO: refactor
     def user(self, name, progress=None, buddies=True, guilds=True, hot=True, top=True, domain=BGGRestrictDomainTo.BOARD_GAME):
         """
         Retrieves details about an user
@@ -279,62 +272,38 @@ class BGGCommon(object):
                                      retries=self._retries,
                                      retry_delay=self._retry_delay)
 
-        # when the user is not found, the API returns an response, but with most fields empty. id is empty too
-        try:
-            data = {"name": root.attrib["name"],
-                    "id": int(root.attrib["id"])}
-        except (KeyError, ValueError):
-            raise BGGItemNotFoundError
-
-        for i in ["firstname", "lastname", "avatarlink",
-                  "stateorprovince", "country", "webaddress", "xboxaccount",
-                  "wiiaccount", "steamaccount", "psnaccount", "traderating"]:
-            data[i] = xml_subelement_attr(root, i)
-
-        data["yearregistered"] = xml_subelement_attr(root, "yearregistered", convert=int, quiet=True)
-        data["lastlogin"] = xml_subelement_attr(root,
-                                                "lastlogin",
-                                                convert=lambda x: datetime.datetime.strptime(x, "%Y-%m-%d"),
-                                                quiet=True)
-
-        # TODO: move add_top_item add_hot_item to sepparated files
-        user = User(data)
+        user = create_user_from_xml(root, html_parser)
 
         # add top items
         if top:
-            for top_item in root.findall(".//top/item"):
-                user.add_top_item({"id": int(top_item.attrib["id"]),
-                                   "name": top_item.attrib["name"]})
+            add_user_top_items_from_xml(user, root)
 
         # add hot items
         if hot:
-            for hot_item in root.findall(".//hot/item"):
-                user.add_hot_item({"id": int(hot_item.attrib["id"]),
-                                   "name": hot_item.attrib["name"]})
+            add_user_hot_items_from_xml(user, root)
 
         if not buddies and not guilds:
             return user
 
-        total_buddies = 0
-        total_guilds = 0
+        # Fetch buddies
+        xml_buddies = root.find("buddies")
+        if xml_buddies is not None:
+            total_buddies = int(xml_buddies.attrib["total"])
+        else:
+            total_buddies = 0
 
-        buddies = root.find("buddies")
-        if buddies is not None:
-            total_buddies = int(buddies.attrib["total"])
-            if total_buddies > 0:
-                # add the buddies from the first page
-                for buddy in buddies.findall(".//buddy"):
-                    user.add_buddy({"name": buddy.attrib["name"],
-                                    "id": buddy.attrib["id"]})
+        if buddies:
+            add_user_buddies_from_xml(user, xml_buddies)
 
-        guilds = root.find("guilds")
-        if guilds is not None:
-            total_guilds = int(guilds.attrib["total"])
-            if total_guilds > 0:
-                # add the guilds from the first page
-                for guild in guilds.findall(".//guild"):
-                    user.add_guild({"name": guild.attrib["name"],
-                                    "id": guild.attrib["id"]})
+        # Fetch guilds
+        xml_guilds = root.find("guilds")
+        if xml_guilds is not None:
+            total_guilds = int(xml_guilds.attrib["total"])
+        else:
+            total_guilds = 0
+
+        if guilds:
+            add_user_guilds_from_xml(user, xml_guilds)
 
         # It seems that the BGG API can return more results than what's specified in the documentation (they say
         # page size is 100, but for an user with 114 friends, all buddies are there on the first page).
@@ -350,23 +319,15 @@ class BGGCommon(object):
 
         page = 2
         while max(user.total_buddies, user.total_guilds) < max_items_to_fetch:
-            added_buddy = False
-            added_guild = False
             params["page"] = page
             root = request_and_parse_xml(self.requests_session,
                                          self._user_api_url,
                                          params=params,
                                          timeout=self._timeout)
 
-            for buddy in root.findall(".//buddy"):
-                user.add_buddy({"name": buddy.attrib["name"],
-                                "id": buddy.attrib["id"]})
-                added_buddy = True
+            added_buddy = add_user_buddies_from_xml(user, root)
 
-            for guild in root.findall(".//guild"):
-                user.add_guild({"name": guild.attrib["name"],
-                                "id": guild.attrib["id"]})
-                added_guild = True
+            added_guild = add_user_guilds_from_xml(user, root)
 
             try:
                 call_progress_cb(progress, max(user.total_buddies, user.total_guilds), max_items_to_fetch)
