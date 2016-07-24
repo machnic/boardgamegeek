@@ -39,11 +39,6 @@ from .loaders import *
 log = logging.getLogger("boardgamegeek.api")
 html_parser = hp.HTMLParser()
 
-HOT_ITEM_CHOICES = ["boardgame", "rpg", "videogame", "boardgameperson", "rpgperson", "boardgamecompany",
-                    "rpgcompany", "videogamecompany"]
-
-COLLECTION_SUBTYPES = ["boardgame", "boardgameexpansion", "boardgameaccessory", "rpgitem", "rpgissue", "videogame"]
-
 
 class BGGChoose(object):
     """
@@ -52,6 +47,8 @@ class BGGChoose(object):
     FIRST = "first"
     RECENT = "recent"
     BEST_RANK = "best-rank"
+
+    _valid_values = [FIRST, RECENT, BEST_RANK]
 
 
 class BGGRestrictSearchResultsTo(object):
@@ -63,6 +60,8 @@ class BGGRestrictSearchResultsTo(object):
     BOARD_GAME = "boardgame"
     BOARD_GAME_EXPANSION = "boardgameexpansion"
 
+    _valid_values = [RPG, VIDEO_GAME, BOARD_GAME, BOARD_GAME_EXPANSION]
+
 
 class BGGRestrictDomainTo(object):
     """
@@ -71,6 +70,8 @@ class BGGRestrictDomainTo(object):
     BOARD_GAME = "boardgame"
     RPG = "rpg"
     VIDEO_GAME = "videogame"
+
+    _valid_values = [BOARD_GAME, RPG, VIDEO_GAME]
 
 
 class BGGRestrictPlaysTo(object):
@@ -83,6 +84,8 @@ class BGGRestrictPlaysTo(object):
     RPG = "rpgitem"
     VIDEO_GAME = "videogame"
 
+    _valid_values = [BOARD_GAME, BOARD_GAME_EXTENSION, BOARD_GAME_ACCESSORY, RPG, VIDEO_GAME]
+
 
 class BGGRestrictCollectionTo(object):
     """
@@ -94,6 +97,24 @@ class BGGRestrictCollectionTo(object):
     RPG = "rpgitem"
     RPG_ISSUE = "rpgissue"
     VIDEO_GAME = "videogame"
+
+    _valid_values = [BOARD_GAME, BOARD_GAME_EXTENSION, BOARD_GAME_ACCESSORY, RPG, RPG_ISSUE, VIDEO_GAME]
+
+
+class BGGHotItemType(object):
+    """
+    Hot Item types
+    """
+    BOARD_GAME = "boardgame"
+    BOARD_GAME_COMPANY = "boardgamecompany"
+    BOARD_GAME_PERSON = "boardgameperson"
+    RPG = "rpg"
+    RPG_COMPANY = "rpgcompany"
+    RPG_PERSON = "rpgperson"
+    VIDEO_GAME = "videogame"
+    VIDEO_GAME_COMPANY = "videogamecompany"
+
+    _valid_values = [BOARD_GAME, BOARD_GAME_COMPANY, BOARD_GAME_PERSON, RPG, RPG_COMPANY, RPG_PERSON, VIDEO_GAME, VIDEO_GAME_COMPANY]
 
 
 def call_progress_cb(progress_cb, current, total):
@@ -148,9 +169,10 @@ class BGGCommon(object):
         :raises: :py:exc:`boardgamegeek.exceptions.BGGApiRetryError` if this request should be retried after a short delay
         :raises: :py:exc:`boardgamegeek.exceptions.BGGApiError` if the API response was invalid or couldn't be parsed
         :raises: :py:exc:`boardgamegeek.exceptions.BGGApiTimeoutError` if there was a timeout
+
         """
 
-        if choose not in [BGGChoose.FIRST, BGGChoose.RECENT, BGGChoose.BEST_RANK]:
+        if choose not in BGGChoose._valid_values:
             raise BGGValueError("invalid value for parameter 'choose': {}".format(choose))
 
         log.debug("getting game id for '{}'".format(name))
@@ -255,7 +277,7 @@ class BGGCommon(object):
         if not name:
             raise BGGValueError("no user name specified")
 
-        if domain not in [BGGRestrictDomainTo.BOARD_GAME, BGGRestrictDomainTo.RPG, BGGRestrictDomainTo.VIDEO_GAME]:
+        if domain not in BGGRestrictDomainTo._valid_values:
             raise BGGValueError("invalid domain")
 
         params = {"name": name,
@@ -367,7 +389,7 @@ class BGGCommon(object):
         if name and game_id:
             raise BGGValueError("can't retrieve by user and by game at the same time")
 
-        if subtype not in ["boardgame", "boardgameexpansion", "boardgameaccessory", "rpgitem", "videogame"]:
+        if subtype not in BGGRestrictPlaysTo._valid_values:
             raise BGGValueError("invalid subtype")
 
         params = {"subtype": subtype}
@@ -447,7 +469,7 @@ class BGGCommon(object):
         :raises: :py:exc:`boardgamegeek.exceptions.BGGApiError` if the response couldn't be parsed
         :raises: :py:exc:`boardgamegeek.exceptions.BGGApiTimeoutError` if there was a timeout
         """
-        if item_type not in HOT_ITEM_CHOICES:
+        if item_type not in BGGHotItemType._valid_values:
             raise BGGValueError("invalid type specified")
 
         params = {"type": item_type}
@@ -511,7 +533,7 @@ class BGGCommon(object):
         if not user_name:
             raise BGGValueError("no user name specified")
 
-        if subtype not in COLLECTION_SUBTYPES:
+        if subtype not in BGGRestrictCollectionTo._valid_values:
             raise BGGValueError("invalid 'subtype'")
 
         params = {"username": user_name,
@@ -519,7 +541,7 @@ class BGGCommon(object):
                   "stats": 1}
 
         if exclude_subtype is not None:
-            if exclude_subtype not in COLLECTION_SUBTYPES:
+            if exclude_subtype not in BGGRestrictCollectionTo._valid_values:
                 raise BGGValueError("invalid 'exclude_subtype'")
 
             if subtype == exclude_subtype:
@@ -624,8 +646,7 @@ class BGGCommon(object):
         params = {"query": query}
 
         for s in search_type:
-            if s not in [BGGRestrictSearchResultsTo.RPG, BGGRestrictSearchResultsTo.VIDEO_GAME,
-                         BGGRestrictSearchResultsTo.BOARD_GAME, BGGRestrictSearchResultsTo.BOARD_GAME_EXPANSION]:
+            if s not in BGGRestrictSearchResultsTo._valid_values:
                 raise BGGValueError("invalid search type: {}".format(search_type))
 
         params["type"] = ",".join(search_type)
