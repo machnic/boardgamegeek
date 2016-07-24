@@ -420,7 +420,7 @@ class BaseGame(Thing):
 
         try:
             self._year_published = fix_unsigned_negative(data["yearpublished"])
-        except:
+        except KeyError:
             self._year_published = None
 
         for version in data.get("versions", []):
