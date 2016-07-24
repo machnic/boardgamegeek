@@ -114,6 +114,7 @@ def create_game_from_xml(xml_root, game_id, html_parser):
                 rank_value = None
             sd["ranks"].append({"id": rank.attrib["id"],
                                 "name": rank.attrib["name"],
+                                "type": rank.attrib["type"],
                                 "friendlyname": rank.attrib.get("friendlyname"),
                                 "value": rank_value})
 
