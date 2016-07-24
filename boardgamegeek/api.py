@@ -609,7 +609,7 @@ class BGGCommon(object):
             params["collid"] = collection_id
 
         if modified_since is not None:
-            params["modifiedsince"] = modified_since
+            params["modifiedsince"] = modified_since.strftime("%Y-%m-%d %H:%M:%S")
 
         xml_root = request_and_parse_xml(self.requests_session,
                                          self._collection_api_url,
