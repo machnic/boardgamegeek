@@ -50,9 +50,6 @@ class User(Thing):
 
         super(User, self).__init__(kw)
 
-    def __str__(self):
-        return "User: {} {}".format(self.firstname, self.lastname)
-
     def __repr__(self):
         return "User: {} (id: {})".format(self.name, self.id)
 

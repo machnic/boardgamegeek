@@ -32,6 +32,9 @@ class SearchResult(Thing):
 
         super(SearchResult, self).__init__(data)
 
+    def __repr__(self):
+        return "SearchResult (result id: {})".format(self.id)
+
     def _format(self, log):
         log.info("searched item id   : {}".format(self.id))
         log.info("searched item name : {}".format(self.name))

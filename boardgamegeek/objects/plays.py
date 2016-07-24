@@ -27,7 +27,10 @@ class PlaysessionPlayer(DictObject):
     """
 
     def __init__(self, data):
-        self._data = data
+        super(PlaySessionPlayer, self).__init__(data)
+
+    def __repr__(self):
+        return "PlaySessionPlayer (name: {})".format(self.username)
 
     @property
     def username(self):
@@ -127,6 +130,9 @@ class PlaySession(DictObject):
         self._players = [PlaysessionPlayer(player) for player in kw.get("players", [])]
 
         super(PlaySession, self).__init__(kw)
+
+    def __repr__(self):
+        return "PlaySession (id: {})".format(self.id)
 
     def _format(self, log):
         log.info("play id         : {}".format(self.id))
@@ -295,6 +301,9 @@ class UserPlays(Plays):
             p._format(log)
             log.info("")
 
+    def __repr__(self):
+        return "UserPlays (user_id: {})".format(self.user_id)
+
     def add_play(self, data):
         kw = copy(data)
         # User plays don't have the ID set in the XML
@@ -328,6 +337,9 @@ class GamePlays(Plays):
         for p in self.plays:
             p._format(log)
             log.info("")
+
+    def __repr__(self):
+        return "GamePlays (game_id: {})".format(self.game_id)
 
     def add_play(self, data):
         self._plays.append(PlaySession(data))

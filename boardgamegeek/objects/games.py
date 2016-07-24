@@ -37,6 +37,9 @@ class BoardGameRank(Thing):
     def rating_bayes_average(self):
         return self._data.get("bayesaverage")
 
+    def __repr__(self):
+        return "BoardGameRank(id: {}, name: {}, value: {})".format(self.id, self.friendly_name, self.value)
+
 
 class BoardGameStats(DictObject):
     """
@@ -189,6 +192,9 @@ class BoardGameComment(DictObject):
     def _format(self, log):
         log.info(u"comment by {} (rating: {}): {}".format(self.commenter, self.rating, self.comment))
 
+    def __repr__(self):
+        return "BoardGameComment(user: {}): {}".format(self.commenter, self.comment)
+
 
 class BoardGameVideo(Thing):
     """
@@ -208,6 +214,9 @@ class BoardGameVideo(Thing):
         kw["uploader_id"] = int(kw["uploader_id"])
 
         super(BoardGameVideo, self).__init__(kw)
+
+    def __repr__(self):
+        return "BoardGameVideo (link: {})".format(self.link)
 
     def _format(self, log):
         log.info("video id          : {}".format(self.id))

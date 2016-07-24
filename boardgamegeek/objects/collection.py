@@ -66,11 +66,8 @@ class Collection(DictObject):
     def __getitem__(self, item):
         return self._items.__getitem__(item)
 
-    def __str__(self):
-        return "{}'s collection, {} items".format(self.owner, len(self))
-
     def __repr__(self):
-        return "Collection: (owner: {}, items: {})".format(self.owner, len(self))
+        return "Collection (owner: {}, items: {})".format(self.owner, len(self))
 
     def __len__(self):
         return len(self._items)
