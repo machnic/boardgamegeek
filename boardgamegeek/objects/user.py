@@ -1,11 +1,11 @@
 # coding: utf-8
 """
-:mod:`boardgamegeek.user` - BoardGameGeek "Users"
-=================================================
+:mod:`boardgamegeek.objects.user` - Classes for storing user data
+=================================================================
 
-.. module:: boardgamegeek.user
+.. module:: boardgamegeek.objects.user
    :platform: Unix, Windows
-   :synopsis: class handling user information
+   :synopsis: class for storing user data
 
 .. moduleauthor:: Cosmin Luță <q4break@gmail.com>
 

@@ -1,11 +1,11 @@
 # coding: utf-8
 """
-:mod:`boardgamegeek.collection` - Collection information
-========================================================
+:mod:`boardgamegeek.objects.collection` - classes for storing collection data
+=============================================================================
 
-.. module:: boardgamegeek.collection
+.. module:: boardgamegeek.objects.collection
    :platform: Unix, Windows
-   :synopsis: classes for storing collection information
+   :synopsis: classes for storing collection data
 
 .. moduleauthor:: Cosmin Luță <q4break@gmail.com>
 
@@ -41,7 +41,7 @@ class Collection(DictObject):
         log.info("owner    : {}".format(self.owner))
         log.info("size     : {} items".format(len(self)))
 
-        log.info("items")
+        log.info("collection items")
 
         for i in self:
             i._format(log)
@@ -88,7 +88,7 @@ class Collection(DictObject):
         Returns the items in the collection
 
         :returns: the items in the collection
-        :rtype: list of :py:class:`boardgamegeek.games.CollectionBoardGame`
+        :rtype: list of :py:class:`boardgamegeek.objects.games.CollectionBoardGame`
         """
         return self._items
 

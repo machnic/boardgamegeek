@@ -1,11 +1,11 @@
 # coding: utf-8
 """
-:mod:`boardgamegeek.guild` - Guild information
-==============================================
+:mod:`boardgamegeek.objects.guild` - Classes for storing guild data
+===================================================================
 
-.. module:: boardgamegeek.guild
+.. module:: boardgamegeek.objects.guild
    :platform: Unix, Windows
-   :synopsis: classes for storing guild information
+   :synopsis: classes for storing guild data
 
 .. moduleauthor:: Cosmin Luță <q4break@gmail.com>
 

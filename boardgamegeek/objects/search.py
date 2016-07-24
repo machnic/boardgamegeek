@@ -1,11 +1,11 @@
 # coding: utf8
 """
-:mod:`boardgamegeek.search` - Search results
-============================================
+:mod:`boardgamegeek.objects.search` - Classes for storing search results
+========================================================================
 
-.. module:: boardgamegeek.search
+.. module:: boardgamegeek.objects.search
    :platform: Unix, Windows
-   :synopsis: classes for handling search results
+   :synopsis: classes for storing search results
 
 .. moduleauthor:: Cosmin Luță <q4break@gmail.com>
 

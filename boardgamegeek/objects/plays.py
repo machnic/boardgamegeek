@@ -1,11 +1,11 @@
 # coding: utf-8
 """
-:mod:`boardgamegeek.plays` - BoardGameGeek "Plays"
-==================================================
+:mod:`boardgamegeek.objects.plays` - Classes for storing plays/play sessions data
+=================================================================================
 
-.. module:: boardgamegeek.plays
+.. module:: boardgamegeek.objects.plays
    :platform: Unix, Windows
-   :synopsis: classes for handling plays/play sessions
+   :synopsis: classes for plays/play sessions data
 
 .. moduleauthor:: Cosmin Luță <q4break@gmail.com>
 
@@ -323,7 +323,7 @@ class UserPlays(Plays):
     def user_id(self):
         """
         :return: id of the playlist owner
-        :rtype: integer
+        :rtype: int
         :return: ``None`` if this is the playlist of a game (not an user's)
         """
         return self._data.get("user_id")
@@ -348,7 +348,7 @@ class GamePlays(Plays):
     def game_id(self):
         """
         :return: id of the game this plays list belongs to
-        :rtype: integer
+        :rtype: int
         :return: ``None`` if this list is that of an user
         """
         return self._data.get("game_id")

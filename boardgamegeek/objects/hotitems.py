@@ -1,12 +1,12 @@
 # coding: utf-8
 
 """
-:mod:`boardgamegeek.hotitems` - BoardGameGeek "Hot Items"
-=========================================================
+:mod:`boardgamegeek.objects.hotitems` - Classes for storing "Hot Item" data
+===========================================================================
 
 .. module:: boardgamegeek.hotitems
    :platform: Unix, Windows
-   :synopsis: classes for handling hot items information
+   :synopsis: classes for storing "Hot Item" data
 
 .. moduleauthor:: Cosmin Luță <q4break@gmail.com>
 """
@@ -21,9 +21,9 @@ from ..utils import DictObject, fix_url
 
 class HotItem(Thing):
     """
-    A hot item from a list. Can refer to either an item (``boardgame``, ``videogame``, etc.), a person (``rpgperson``,
-    ``boardgameperson``) or even a company (``boardgamecompany``, ``videogamecompany``), depending on the type of hot
-    list retrieved.
+    A hot item from a list. Can refer to an item (``boardgame``, ``videogame``, etc.), a person (``rpgperson``,
+    ``boardgameperson``) or even a company (``boardgamecompany``, ``videogamecompany``), depending on the type
+    of hot list retrieved.
     """
 
     def __init__(self, data):
@@ -49,7 +49,7 @@ class HotItem(Thing):
     def rank(self):
         """
         :return: Ranking of this hot item
-        :rtype: integer
+        :rtype: int
         """
         return self._data["rank"]
 
@@ -57,7 +57,7 @@ class HotItem(Thing):
     def year(self):
         """
         :return: publishing year
-        :rtype: integer
+        :rtype: int
         :return: ``None`` if n/a
         """
         return self._data.get("yearpublished")
@@ -74,7 +74,7 @@ class HotItem(Thing):
 
 class HotItems(DictObject):
     """
-    A collection of :py:class:`boardgamegeek.hotitems.HotItem`
+    A collection of :py:class:`boardgamegeek.objects.hotitems.HotItem`
     """
     def __init__(self, data):
         kw = copy(data)
@@ -100,7 +100,7 @@ class HotItems(DictObject):
     def items(self):
         """
         :return: list of hotitems
-        :rtype: list of :py:class:`boardgamegeek.hotitems.HotItem`
+        :rtype: list of :py:class:`boardgamegeek.objects.hotitems.HotItem`
         """
         return self._items
 

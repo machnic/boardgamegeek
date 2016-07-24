@@ -1,11 +1,11 @@
 # coding: utf-8
 """
-:mod:`boardgamegeek.games` - Games information
-==============================================
+:mod:`boardgamegeek.objects.games` - Classes for storing game data
+==================================================================
 
 .. module:: boardgamegeek.objects.games
    :platform: Unix, Windows
-   :synopsis: classes for storing games information
+   :synopsis: classes for storing games data
 
 .. moduleauthor:: Cosmin Luță <q4break@gmail.com>
 
@@ -505,8 +505,6 @@ class BaseGame(Thing):
         """
         return self._data.get("playingtime")
 
-    # TODO: create properties to access the stats
-
     @property
     def users_rated(self):
         """
@@ -554,11 +552,9 @@ class BaseGame(Thing):
 
     @property
     def ranks(self):
-        #TODO: document this change. It's not returning list of dicts anymore, but BoardGameRank objects
         """
         :return: rankings of this game
-        :rtype: list of dicts, keys: ``friendlyname`` (the friendly name of the rank, e.g. "Board Game Rank"), ``name``
-                (name of the rank, e.g "boardgame"), ``value`` (the rank)
+        :rtype: list of :py:class:`boardgamegeek.objects.games.BoardGameRank`
         :return: ``None`` if n/a
         """
         return self._stats.ranks
@@ -624,6 +620,10 @@ class CollectionBoardGame(BaseGame):
 
     @property
     def numplays(self):
+        """
+        :return: number of plays
+        :rtype: int
+        """
         return self._data.get("numplays", 0)
 
     @property
@@ -912,6 +912,10 @@ class BoardGame(BaseGame):
 
     @property
     def comments(self):
+        """
+        :return: comments for this game
+        :rtype: list of :py:class:`boardgamegeek.objects.games.BoardGameComment`
+        """
         return self._comments
 
     @property
@@ -926,7 +930,7 @@ class BoardGame(BaseGame):
     def expansions(self):
         """
         :return: expansions
-        :rtype: list of :py:class:`boardgamegeek.things.Thing`
+        :rtype: list of :py:class:`boardgamegeek.objects.things.Thing`
         """
         return self._expansions
 
@@ -934,7 +938,7 @@ class BoardGame(BaseGame):
     def expands(self):
         """
         :return: games this item expands
-        :rtype: list of :py:class:`boardgamegeek.things.Thing`
+        :rtype: list of :py:class:`boardgamegeek.objects.things.Thing`
         """
         return self._expands
 
@@ -982,7 +986,7 @@ class BoardGame(BaseGame):
     def min_age(self):
         """
         :return: minimum recommended age
-        :rtype: integer
+        :rtype: int
         :return: ``None`` if n/a
         """
         return self._data.get("minage")
@@ -991,7 +995,7 @@ class BoardGame(BaseGame):
     def users_owned(self):
         """
         :return: number of users owning this game
-        :rtype: integer
+        :rtype: int
         :return: ``None`` if n/a
         """
         return self._stats.users_owned
@@ -1000,7 +1004,7 @@ class BoardGame(BaseGame):
     def users_trading(self):
         """
         :return: number of users trading this game
-        :rtype: integer
+        :rtype: int
         :return: ``None`` if n/a
         """
         return self._stats.users_trading
@@ -1009,7 +1013,7 @@ class BoardGame(BaseGame):
     def users_wanting(self):
         """
         :return: number of users wanting this game
-        :rtype: integer
+        :rtype: int
         :return: ``None`` if n/a
         """
         return self._data.get("wanting")
@@ -1018,7 +1022,7 @@ class BoardGame(BaseGame):
     def users_wishing(self):
         """
         :return: number of users wishing for this game
-        :rtype: integer
+        :rtype: int
         :return: ``None`` if n/a
         """
         return self._data.get("wishing")
@@ -1027,7 +1031,7 @@ class BoardGame(BaseGame):
     def users_commented(self):
         """
         :return: number of user comments
-        :rtype: integer
+        :rtype: int
         :return: ``None`` if n/a
         """
         return self._data.get("numcomments")
@@ -1036,7 +1040,7 @@ class BoardGame(BaseGame):
     def rating_num_weights(self):
         """
         :return:
-        :rtype: integer
+        :rtype: int
         :return: ``None`` if n/a
         """
         return self._stats.rating_num_weights
@@ -1054,7 +1058,7 @@ class BoardGame(BaseGame):
     def videos(self):
         """
         :return: videos of this game
-        :rtype: list of :py:class:`boardgamegeek.game.BoardGameVideo`
+        :rtype: list of :py:class:`boardgamegeek.objects.games.BoardGameVideo`
         """
         return self._videos
 
@@ -1062,6 +1066,6 @@ class BoardGame(BaseGame):
     def versions(self):
         """
         :return: versions of this game
-        :rtype: list of :py:class:`boardgamegeek.game.BoardGameVersion`
+        :rtype: list of :py:class:`boardgamegeek.objects.games.BoardGameVersion`
         """
         return self._versions
