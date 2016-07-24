@@ -196,7 +196,7 @@ class BGGCommon(object):
         """
         Retrieves details about a guild
 
-        :param integer guild_id: the id number of the guild
+        :param int guild_id: the id number of the guild
         :param callable progress: an optional callable for reporting progress, taking two integers (``current``, ``total``) as arguments
         :param bool members: if ``True``, names of the guild members will be fetched
         :return: ``Guild`` object containing the data
@@ -628,7 +628,7 @@ class BGGCommon(object):
         Search for a game
 
         :param str query: the string to search for
-        :param list search_type: list of :py:class:`boardgamegeek.api.BGGRestrictItemTypeTo`, indicating what to include in the search results.
+        :param list search_type: list of :py:class:`boardgamegeek.api.BGGRestrictSearchResultsTo`, indicating what to include in the search results.
         :param bool exact: if True, try to match the name exactly
         :return: list of ``SearchResult``
         :rtype: list of :py:class:`boardgamegeek.objects.search.SearchResult`
@@ -688,8 +688,8 @@ class BGGClient(BGGCommon):
         :param float timeout: Timeout for network operations, in seconds
         :param int retries: Number of retries to perform in case the API returns HTTP 202 (retry) or in case of timeouts
         :param float retry_delay: Time to sleep, in seconds, between retries when the API returns HTTP 202 (retry)
-        :param disable_ssl: If true, use HTTP instead of HTTPS for calling the BGG API
-        :param requests_per_minute: how many requests per minute to allow to go out to BGG (throttle prevention)
+        :param bool disable_ssl: If true, use HTTP instead of HTTPS for calling the BGG API
+        :param int requests_per_minute: how many requests per minute to allow to go out to BGG (throttle prevention)
 
         Example usage::
 

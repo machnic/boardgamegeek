@@ -1,5 +1,6 @@
 # coding: utf8
 """
+
 :mod:`boardgamegeek.objects.search` - Classes for storing search results
 ========================================================================
 
@@ -21,7 +22,6 @@ class SearchResult(Thing):
     """
     Result of a search
     """
-
     def __init__(self, data):
         self._yearpublished = None
         if "yearpublished" in data:

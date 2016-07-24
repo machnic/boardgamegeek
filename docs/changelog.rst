@@ -1,17 +1,24 @@
 Changelog
 =========
 
-Massive refactoring.
 
-Splitting Plays into two classes, UserPlays and GamePlays.
-Refactored exceptions
-Most functions don't return ``None`` in case of item not found, but raise an exception
-`BoardGame` and `CollectionBoardGame` don't have the `.boardgame_rank` attribute; use `.bgg_rank` instead.
+1.99.0
+------
 
-TODO: allow breaking from fetching pages by raising an exception from the progress callback
+This is a pre-release of version 2.0.0, which **breaks compatibility** with the previous API.
 
-- guild : members to prevent retrieving the members
+  * The old ``BoardGameGeek`` class has been renamed to ``BGGClient`` because it's shorter and it better reflects what
+    the code does: it's a client for the Board Game Geek XML API.
 
+  * Code refactoring for a better separation of the code which handles xml parsing from the one that's taking care of
+    storing data
+
+  * Refactored exceptions classes
+
+  * In the previous versions, in case something was not found (e.g. a game, an user, etc.), ``None`` was returned. Now,
+    an exception is raised instead (:py:class:`boardgamegeek.exceptions.BGGItemNotFoundError`)
+
+  * Improved documentation
 
 
 0.13.2

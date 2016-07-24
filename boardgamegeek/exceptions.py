@@ -17,6 +17,7 @@ class BGGValueError(ValueError):
 
 
 class BGGError(Exception):
+    """ Base class for errors """
     pass
 
 
@@ -26,7 +27,7 @@ class BGGItemNotFoundError(BGGError):
 
 
 class BGGApiTimeoutError(BGGError):
-    """ Network timeout conditions """
+    """ Network timeout issues """
     pass
 
 
@@ -39,8 +40,3 @@ class BGGApiRetryError(BGGApiError):
     """ The request to the BGG XML2 API should be retried """
     pass
 
-
-BoardGameGeekError = BGGError
-BoardGameGeekTimeoutError = BGGApiTimeoutError
-BoardGameGeekAPIError = BGGApiError
-BGGApiRetryError = BGGApiRetryError

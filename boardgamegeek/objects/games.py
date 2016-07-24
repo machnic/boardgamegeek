@@ -21,20 +21,40 @@ from ..utils import fix_url, DictObject, fix_unsigned_negative
 
 
 class BoardGameRank(Thing):
+    """
+    Object containing information about the rank of a board game
+    """
     @property
     def type(self):
+        """
+        :return: type of the rank (e.g. "subtype", "family", etc.)
+        :rtype: str
+        """
         return self._data.get("type")
 
     @property
     def friendly_name(self):
+        """
+        :return: friendly name of the rank
+        :rtype: str
+        """
         return self._data.get("friendlyname")
 
     @property
     def value(self):
+        """
+        :return: value of the rank
+        :rtype: int
+        """
         return self._data.get("value")
 
     @property
     def rating_bayes_average(self):
+        """
+        :return: bayes average
+        :rtype: float
+        :return: ``None`` if n/a
+        """
         return self._data.get("bayesaverage")
 
     def __repr__(self):
@@ -60,17 +80,25 @@ class BoardGameStats(DictObject):
 
     @property
     def bgg_rank(self):
+        """
+        :return: BGG rank
+        :rtype: int
+        """
         return self._bgg_rank
 
     @property
     def ranks(self):
+        """
+        :return: list of ranks for this game
+        :rtype: list of :py:class:`boardgamegeek.objects.games.BoardGameRank`
+        """
         return self._ranks
 
     @property
     def users_rated(self):
         """
         :return: how many users rated the game
-        :rtype: integer
+        :rtype: int
         :return: ``None`` if n/a
         """
         return self._data.get("usersrated")
@@ -105,7 +133,7 @@ class BoardGameStats(DictObject):
     @property
     def rating_median(self):
         """
-        :return:
+        :return: median value of all ratings
         :rtype: float
         :return: ``None`` if n/a
         """
@@ -115,7 +143,7 @@ class BoardGameStats(DictObject):
     def users_owned(self):
         """
         :return: number of users owning this game
-        :rtype: integer
+        :rtype: int
         :return: ``None`` if n/a
         """
         return self._data.get("owned")
@@ -124,7 +152,7 @@ class BoardGameStats(DictObject):
     def users_trading(self):
         """
         :return: number of users trading this game
-        :rtype: integer
+        :rtype: int
         :return: ``None`` if n/a
         """
         return self._data.get("trading")
@@ -133,7 +161,7 @@ class BoardGameStats(DictObject):
     def users_wanting(self):
         """
         :return: number of users wanting this game
-        :rtype: integer
+        :rtype: int
         :return: ``None`` if n/a
         """
         return self._data.get("wanting")
@@ -142,7 +170,7 @@ class BoardGameStats(DictObject):
     def users_wishing(self):
         """
         :return: number of users wishing for this game
-        :rtype: integer
+        :rtype: int
         :return: ``None`` if n/a
         """
         return self._data.get("wishing")
@@ -151,7 +179,7 @@ class BoardGameStats(DictObject):
     def users_commented(self):
         """
         :return: number of user comments
-        :rtype: integer
+        :rtype: int
         :return: ``None`` if n/a
         """
         return self._data.get("numcomments")
@@ -160,7 +188,7 @@ class BoardGameStats(DictObject):
     def rating_num_weights(self):
         """
         :return:
-        :rtype: integer
+        :rtype: int
         :return: ``None`` if n/a
         """
         return self._data.get("numweights")
@@ -176,17 +204,32 @@ class BoardGameStats(DictObject):
 
 
 class BoardGameComment(DictObject):
-
+    """
+    Object containing a comment on BGG
+    """
     @property
     def commenter(self):
+        """
+        :return: name of the user making the comment
+        :rtype: str
+        """
         return self._data["username"]
 
     @property
     def comment(self):
+        """
+        :return: the comment
+        :rtype: str
+        """
         return self._data["comment"]
 
     @property
     def rating(self):
+        """
+        :return: user's rating
+        :rtype: str
+        :return: "n/a" if user didn't rate the game with this comment
+        """
         return self._data["rating"]
 
     def _format(self, log):
@@ -232,8 +275,8 @@ class BoardGameVideo(Thing):
     def category(self):
         """
         :return: the category of this video
+        :rtype: str
         :return: ``None`` if n/a
-        :rtype: string
         """
         return self._data.get("category")
 
@@ -241,8 +284,8 @@ class BoardGameVideo(Thing):
     def link(self):
         """
         :return: the link to this video
+        :rtype: str
         :return: ``None`` if n/a
-        :rtype: string
         """
         return self._data.get("link")
 
@@ -250,8 +293,8 @@ class BoardGameVideo(Thing):
     def language(self):
         """
         :return: the language of this video
+        :rtype: str
         :return: ``None`` if n/a
-        :rtype: string
         """
         return self._data.get("language")
 
@@ -259,8 +302,8 @@ class BoardGameVideo(Thing):
     def uploader(self):
         """
         :return: the name of the user which uploaded this video
+        :rtype: str
         :return: ``None`` if n/a
-        :rtype: string
         """
         return self._data.get("uploader")
 
@@ -268,7 +311,7 @@ class BoardGameVideo(Thing):
     def uploader_id(self):
         """
         :return: id of the uploader
-        :rtype: integer
+        :rtype: int
         :return: ``None`` if n/a
         """
         return self._data.get("uploader_id")
@@ -313,9 +356,8 @@ class BoardGameVersion(Thing):
     @property
     def artist(self):
         """
-
         :return: artist of this version
-        :rtype: string
+        :rtype: str
         :return: ``None`` if n/a
         """
         return self._data.get("artist")
@@ -342,7 +384,7 @@ class BoardGameVersion(Thing):
     def language(self):
         """
         :return: language of this version
-        :rtype: string
+        :rtype: str
         :return: ``None`` if n/a
         """
         return self._data.get("language")
@@ -351,7 +393,7 @@ class BoardGameVersion(Thing):
     def name(self):
         """
         :return: name of this version
-        :rtype: string
+        :rtype: str
         :return: ``None`` if n/a
         """
         return self._data.get("name")
@@ -361,7 +403,7 @@ class BoardGameVersion(Thing):
         """
 
         :return: product code of this version
-        :rtype: string
+        :rtype: str
         :return: ``None`` if n/a
         """
         return self._data.get("product_code")
@@ -371,7 +413,7 @@ class BoardGameVersion(Thing):
         """
 
         :return: publisher of this version
-        :rtype: string
+        :rtype: str
         :return: ``None`` if n/a
         """
         return self._data.get("publisher")
@@ -398,7 +440,7 @@ class BoardGameVersion(Thing):
     def year(self):
         """
         :return: publishing year
-        :rtype: integer
+        :rtype: int
         :return: ``None`` if n/a
         """
         return self._data.get("yearpublished")
@@ -455,7 +497,7 @@ class BaseGame(Thing):
     def year(self):
         """
         :return: publishing year
-        :rtype: integer
+        :rtype: int
         :return: ``None`` if n/a
         """
         return self._year_published
@@ -464,7 +506,7 @@ class BaseGame(Thing):
     def min_players(self):
         """
         :return: minimum number of players
-        :rtype: integer
+        :rtype: int
         :return: ``None`` if n/a
         """
         return self._data.get("minplayers")
@@ -473,7 +515,7 @@ class BaseGame(Thing):
     def max_players(self):
         """
         :return: maximum number of players
-        :rtype: integer
+        :rtype: int
         :return: ``None`` if n/a
         """
         return self._data.get("maxplayers")
@@ -481,18 +523,18 @@ class BaseGame(Thing):
     @property
     def min_playing_time(self):
         """
-        Minimum playing time
-        :return: ``None if n/a
-        :rtype: integer
+        :return: minimum playing time
+        :return: ``None`` if n/a
+        :rtype: int
         """
         return self._data.get("minplaytime")
 
     @property
     def max_playing_time(self):
         """
-        Maximum playing time
-        :return: ``None if n/a
-        :rtype: integer
+        :return: maximum playing time
+        :return: ``None`` if n/a
+        :rtype: int
         """
         return self._data.get("maxplaytime")
 
@@ -500,7 +542,7 @@ class BaseGame(Thing):
     def playing_time(self):
         """
         :return: playing time
-        :rtype: integer
+        :rtype: int
         :return: ``None`` if n/a
         """
         return self._data.get("playingtime")
@@ -509,7 +551,7 @@ class BaseGame(Thing):
     def users_rated(self):
         """
         :return: how many users rated the game
-        :rtype: integer
+        :rtype: int
         :return: ``None`` if n/a
         """
         return self._stats.users_rated
