@@ -804,7 +804,6 @@ class BoardGame(BaseGame):
         log.info("minimum age       : {}".format(self.min_age))
         log.info("thumbnail         : {}".format(self.thumbnail))
         log.info("image             : {}".format(self.image))
-
         log.info("is expansion      : {}".format(self.expansion))
 
         if self.expansions:

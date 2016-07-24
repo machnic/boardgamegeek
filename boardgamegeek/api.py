@@ -192,8 +192,7 @@ class BGGCommon(object):
 
         xml_root = request_and_parse_xml(self.requests_session,
                                          self._guild_api_url,
-                                         params={"id": guild_id,
-                                                 "members": 1 if members else 0},
+                                         params={"id": guild_id, "members": 1 if members else 0},
                                          timeout=self._timeout,
                                          retries=self._retries,
                                          retry_delay=self._retry_delay)
@@ -522,9 +521,9 @@ class BGGCommon(object):
         if subtype not in COLLECTION_SUBTYPES:
             raise BGGValueError("invalid 'subtype'")
 
-        params={"username": user_name,
-                "subtype": subtype,
-                "stats": 1}
+        params = {"username": user_name,
+                  "subtype": subtype,
+                  "stats": 1}
 
         if exclude_subtype is not None:
             if exclude_subtype not in COLLECTION_SUBTYPES:
@@ -689,7 +688,8 @@ class BGGClient(BGGCommon):
             >>> bgg_sqlite_cache = BGGClient(cache=CacheBackendSqlite(path="/path/to/cache.db", ttl=3600))
 
     """
-    def __init__(self, cache=CacheBackendMemory(ttl=3600), timeout=15, retries=3, retry_delay=5, disable_ssl=False, requests_per_minute=DEFAULT_REQUESTS_PER_MINUTE):
+    def __init__(self, cache=CacheBackendMemory(ttl=3600), timeout=15, retries=3, retry_delay=5, disable_ssl=False,
+                 requests_per_minute=DEFAULT_REQUESTS_PER_MINUTE):
 
         api_endpoint = "http{}://www.boardgamegeek.com/xmlapi2".format("" if disable_ssl else "s")
         super(BGGClient, self).__init__(api_endpoint=api_endpoint,

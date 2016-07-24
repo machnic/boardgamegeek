@@ -80,7 +80,7 @@ class Guild(Thing):
 
         if self._data.get("addr2"):
             if len(address):
-                address += " "  # delimit the two address fields by a space
+                address += " "
             address += self._data.get("addr2")
 
         return address if len(address) else None
