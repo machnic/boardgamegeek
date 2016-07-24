@@ -60,7 +60,7 @@ class PlaySessionPlayer(DictObject):
         return self._data.get("name")
 
     @property
-    def startposition(self):
+    def start_pos(self):
         """
         :return:
         :rtype:
