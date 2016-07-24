@@ -692,8 +692,15 @@ class CollectionBoardGame(BaseGame):
 
     @property
     def wishlist_priority(self):
-        # TODO: convert to int (it's str)
-        return self._data.get("wishlistpriority")
+        """
+        :return: the priority in the whishlist for this game
+        :rtype: int or None
+        """
+        try:
+            return int(self._data.get("wishlistpriority"))
+        except TypeError:
+            # This occurs when the priority is not set
+            return None
 
 
 class BoardGame(BaseGame):
