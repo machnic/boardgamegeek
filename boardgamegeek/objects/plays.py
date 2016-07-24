@@ -18,7 +18,7 @@ from boardgamegeek.exceptions import BGGError
 from boardgamegeek.utils import DictObject
 
 
-class PlaysessionPlayer(DictObject):
+class PlaySessionPlayer(DictObject):
     """
     Class representing a player in a play session
 
@@ -127,7 +127,7 @@ class PlaySession(DictObject):
                     kw["date"] = None
 
         # create "nice" dictionaries out of plain ones, so you can .dot access stuff.
-        self._players = [PlaysessionPlayer(player) for player in kw.get("players", [])]
+        self._players = [PlaySessionPlayer(player) for player in kw.get("players", [])]
 
         super(PlaySession, self).__init__(kw)
 
