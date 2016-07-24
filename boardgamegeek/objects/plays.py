@@ -277,6 +277,9 @@ class Plays(DictObject):
     @property
     def plays_count(self):
         """
+        Return the number of plays, as reported by the server. This could be different from the result of len() on
+        this object, which returns the number of plays in this object.
+
         :return: plays count, as reported by the server
         :rtype: integer
         """

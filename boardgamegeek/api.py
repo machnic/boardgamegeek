@@ -25,9 +25,7 @@ if sys.version_info >= (3,):
 else:
     import HTMLParser as hp
 
-
 from .objects.search import SearchResult
-
 from .exceptions import BGGApiError, BGGError, BGGItemNotFoundError, BGGValueError
 from .utils import xml_subelement_attr, request_and_parse_xml
 from .utils import RateLimitingAdapter, DEFAULT_REQUESTS_PER_MINUTE
@@ -56,7 +54,7 @@ class BGGChoose(object):
 
 class BGGRestrictSearchResultsTo(object):
     """
-    Item types that should be included in search results
+    Item types that search results should be restricted to
     """
     RPG = "rpgitem"
     VIDEO_GAME = "videogame"
@@ -74,6 +72,9 @@ class BGGRestrictDomainTo(object):
 
 
 class BGGRestrictPlaysTo(object):
+    """
+    Play types that search results should be restricted to
+    """
     BOARD_GAME = "boardgame"
     BOARD_GAME_EXTENSION = "boardgameexpansion"
     BOARD_GAME_ACCESSORY = "boardgameaccessory"
@@ -82,6 +83,9 @@ class BGGRestrictPlaysTo(object):
 
 
 class BGGRestrictCollectionTo(object):
+    """
+    Collection item types that search results should be restricted to
+    """
     BOARD_GAME = "boardgame"
     BOARD_GAME_EXTENSION = "boardgameexpansion"
     BOARD_GAME_ACCESSORY = "boardgameaccessory"
@@ -104,6 +108,7 @@ class BGGCommon(object):
     :param float timeout: timeout for a request, in seconds
     :param int retries: how many retries to perform in special cases
     :param float retry_delay: delay between retries, in seconds
+    :param int requests_per_minute: maximum number of requests per minute to make to the Board Game Geek API
     """
     def __init__(self, api_endpoint, cache, timeout, retries, retry_delay, requests_per_minute):
         self._search_api_url = api_endpoint + "/search"
@@ -137,6 +142,7 @@ class BGGCommon(object):
         :param str choose: method of selecting the game by name, when having multiple results. Valid values are:
                            `BGGChoose.FIRST`, `BGGChoose.RECENT`, `BGGChoose.BEST_RANK`
         :return: game's id
+        :rtype: int
         :raises: :py:exc:`boardgamegeek.exceptions.BGGValueError` in case of invalid parameter(s)
         :raises: :py:exc:`boardgamegeek.exceptions.BGGItemNotFoundError` if the game hasn't been found
         :raises: :py:exc:`boardgamegeek.exceptions.BGGApiRetryError` if this request should be retried after a short delay
@@ -174,7 +180,7 @@ class BGGCommon(object):
         :return: ``Guild`` object containing the data
         :return: ``None`` if the information couldn't be retrieved
         :rtype: :py:class:`boardgamegeek.guild.Guild`
-        :raises: :py:exc:`BGGValueError` in case of an invalid parameter(s)
+        :raises: :py:exc:`boardgamegeek.exceptions.BGGValueError` in case of an invalid parameter(s)
         :raises: :py:exc:`boardgamegeek.exceptions.BGGApiRetryError` if this request should be retried after a short delay
         :raises: :py:exc:`boardgamegeek.exceptions.BGGApiError` if the response couldn't be parsed
         :raises: :py:exc:`boardgamegeek.exceptions.BGGApiTimeoutError` if there was a timeout
@@ -243,8 +249,6 @@ class BGGCommon(object):
         :return: ``User`` object
         :rtype: :py:class:`boardgamegeek.user.User`
         :return: ``None`` if the user couldn't be found
-
-        :raises: `ValueError` in case of invalid parameters
         :raises: :py:exc:`boardgamegeek.exceptions.BGGValueError` in case of invalid parameter(s)
         :raises: :py:exc:`boardgamegeek.exceptions.BGGItemNotFoundError` if the user wasn't found
         :raises: :py:exc:`boardgamegeek.exceptions.BGGApiRetryError` if this request should be retried after a short delay
@@ -355,7 +359,7 @@ class BGGCommon(object):
         :param str subtype: limit plays results to the specified subtype.
         :return: object containing all the plays
         :rtype: :py:class:`boardgamegeek.plays.Plays`
-        :return: ``None`` if the user/game couldn't be found
+        :return: :py:exc:`boardgamegeek.exceptions.BGGItemNotFoundError` if the user/game couldn't be found
         :raises: :py:exc:`boardgamegeek.exceptions.BGGValueError` in case of invalid parameter(s)
         :raises: :py:exc:`boardgamegeek.exceptions.BGGApiRetryError` if this request should be retried after a short delay
         :raises: :py:exc:`boardgamegeek.exceptions.BGGApiError` if the response couldn't be parsed
@@ -363,7 +367,7 @@ class BGGCommon(object):
 
         """
         if not name and not game_id:
-            raise BGGValueError("no user name specified")
+            raise BGGValueError("no user name or game id specified")
 
         if name and game_id:
             raise BGGValueError("can't retrieve by user and by game at the same time")
@@ -444,8 +448,6 @@ class BGGCommon(object):
                               "rpgperson", "boardgamecompany", "rpgcompany", "videogamecompany")
         :return: ``HotItems`` object
         :rtype: :py:class:`boardgamegeek.hotitems.HotItems`
-        :return: ``None`` in case the hot items couldn't be retrieved
-
         :raises: :py:exc:`boardgamegeek.exceptions.BGGValueError` in case of invalid parameter(s)
         :raises: :py:exc:`boardgamegeek.exceptions.BGGApiRetryError` if this request should be retried after
                   a short delay
@@ -508,8 +510,8 @@ class BGGCommon(object):
 
         :return: ``Collection`` object
         :rtype: :py:class:`boardgamegeek.collection.Collection`
-        :return: ``None`` if user not found
 
+        :raises: :py:exc:`boardgamegeek.exceptions.BGGItemNotFoundError` if user not found
         :raises: :py:exc:`boardgamegeek.exceptions.BGGValueError` in case of invalid parameter(s)
         :raises: :py:exc:`boardgamegeek.exceptions.BGGApiRetryError` if this request should be retried after a short delay
         :raises: :py:exc:`boardgamegeek.exceptions.BGGApiError` if the response couldn't be parsed
@@ -708,8 +710,8 @@ class BGGClient(BGGCommon):
         :param str name: The name of the game to search for
         :param boardgamegeek.BGGChoose choose: method of selecting the game by name, when dealing with multiple results.
         :return: the game's id
-        :rtype: integer
-        :return: ``None`` if game wasn't found
+        :rtype: int
+        :raises: :py:exc:`boardgamegeek.exceptions.BGGItemNotFoundError` if the game hasn't been found
         :raises: :py:exc:`boardgamegeek.exceptions.BGGError` in case of invalid name
         :raises: :py:exc:`boardgamegeek.exceptions.BGGApiRetryError` if this request should be retried after a short delay
         :raises: :py:exc:`boardgamegeek.exceptions.BGGApiError` if the response couldn't be parsed
@@ -723,7 +725,7 @@ class BGGClient(BGGCommon):
         Get information about a game.
 
         :param str name: If not None, get information about a game with this name
-        :param integer game_id:  If not None, get information about a game with this id
+        :param int game_id:  If not None, get information about a game with this id
         :param str choose: method of selecting the game by name, when dealing with multiple results.
                            Valid values are : "first", "recent" or "best-rank"
         :param bool versions: include versions information
@@ -736,6 +738,7 @@ class BGGClient(BGGCommon):
         :return: ``BoardGame`` object
         :rtype: :py:class:`boardgamegeek.games.BoardGame`
 
+        :raises: :py:exc:`boardgamegeek.exceptions.BGGItemNotFoundError` if the game hasn't been found
         :raises: :py:exc:`boardgamegeek.exceptions.BoardGameGeekError` in case of invalid name or game_id
         :raises: :py:exc:`boardgamegeek.exceptions.BoardGameGeekAPIRetryError` if this request should be retried after a
                  short delay
