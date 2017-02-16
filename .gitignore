@@ -9,3 +9,5 @@ build
 *.egg-info
 _modules
 dist
+htmlcov/*
+.idea
