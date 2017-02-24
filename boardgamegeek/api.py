@@ -728,6 +728,62 @@ class BGGClient(BGGCommon):
         """
         return self._get_game_id(name, game_type=BGGRestrictSearchResultsTo.BOARD_GAME, choose=choose)
 
+    
+    def game_list(self, game_id_list=[], versions=False,
+                  videos=False, historical=False, marketplace=False):
+        """
+        Get list of games by from a list of ids.
+
+        :param list game_id_list:  List of game ids
+        :param bool versions: include versions information
+        :param bool videos: include videos
+        :param bool historical: include historical data
+        :param bool marketplace: include marketplace data
+        :return: list of ``BoardGame`` objects
+        :rtype: list`
+
+        :raises: :py:exc:`boardgamegeek.exceptions.BoardGameGeekAPIRetryError`
+            if this request should be retried after a short delay
+        :raises: :py:exc:`boardgamegeek.exceptions.BoardGameGeekAPIError`
+            if the response couldn't be parsed
+        :raises: :py:exc:`boardgamegeek.exceptions.BoardGameGeekTimeoutError`
+            if there was a timeout
+        """
+
+        if not game_id_list:
+            raise BGGError("List of Game Ids must be specified")
+
+        log.debug("retrieving games {}".format(game_id_list,))
+
+        params = {"id": ','.join([str(game_id) for game_id in game_id_list]),
+                  "versions": 1 if versions else 0,
+                  "videos": 1 if videos else 0,
+                  "historical": 1 if historical else 0,
+                  "marketplace": 1 if marketplace else 0,
+                  "stats": 1}
+
+        xml_root = request_and_parse_xml(self.requests_session,
+                                         self._thing_api_url,
+                                         params=params,
+                                         timeout=self._timeout,
+                                         retries=self._retries,
+                                         retry_delay=self._retry_delay)
+
+        xml_root = xml_root.findall("item")
+        if xml_root is None:
+            msg = "invalid data for game ids: {}".format(game_id_list,)
+            raise BGGApiError(msg)
+
+        game_list = []
+        for i, game_root in enumerate(xml_root):
+            game = create_game_from_xml(game_root,
+                                        game_id=game_id_list[i],
+                                        html_parser=html_parser)
+            game_list.append(game)
+
+        return game_list
+
+
     def game(self, name=None, game_id=None, choose=BGGChoose.FIRST, versions=False, videos=False, historical=False,
              marketplace=False, comments=False, rating_comments=False, progress=None):
         """

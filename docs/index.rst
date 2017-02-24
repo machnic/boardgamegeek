@@ -82,12 +82,18 @@ To Do
 
 Contributions/suggestions are welcome!
 
-Contributions
-=============
+Credits
+=======
 
-* Phil S. Stein (philsstein) (libBGG inspired this fork)
-* Tom Usher (tomusher)
+Original authors:
 
+* Phil S. Stein (github:philsstein)
+* Geoff Lawler (github:glawler)
+
+Contributions to this fork:
+
+* Tom Usher (github:tomusher)
+* Brent Ropp (github:bar350)
 
 Indices and tables
 ==================

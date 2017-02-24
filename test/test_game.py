@@ -5,6 +5,7 @@ import sys
 from _common import *
 from boardgamegeek import BGGError, BGGItemNotFoundError, BGGValueError
 from boardgamegeek.objects.games import BoardGameVideo, BoardGameVersion, BoardGameRank
+from boardgamegeek.objects.games import PlayerSuggestion
 
 if sys.version_info >= (3,):
     STR_TYPES_OR_NONE = [str, type(None)]
@@ -36,7 +37,9 @@ def check_game(game):
     assert game.name == TEST_GAME_NAME
     assert game.id == TEST_GAME_ID
     assert game.year == 2007
-    assert game.mechanics == ["Area Enclosure", "Card Drafting", "Hand Management", "Worker Placement"]
+    assert game.mechanics == ['Area Enclosure', 'Card Drafting', 'Hand Management',
+                              'Variable Phase Order', 'Variable Player Powers',
+                              'Worker Placement']
     assert game.min_players == 1
     assert game.max_players == 5
     assert game.thumbnail == "http://cf.geekdo-images.com/images/pic259085_t.jpg"
@@ -47,8 +50,9 @@ def check_game(game):
     assert "Economic" in game.categories
     assert "Farming" in game.categories
 
-    assert game.families == ["Agricola", "Animals: Cattle", "Animals: Sheep", "Harvest Series",
-                             "Solitaire Games", "Tableau Building"]
+    assert game.families == ['Agricola', 'Animals: Cattle', 'Animals: Horses',
+                             'Animals: Pigs', 'Animals: Sheep', 'Harvest Series',
+                             'Solitaire Games', 'Tableau Building']
     assert game.designers == ["Uwe Rosenberg"]
 
     assert "Lookout Games" in game.publishers
@@ -107,6 +111,16 @@ def check_game(game):
         assert type(rank) == BoardGameRank
         assert type(rank.type) in STR_TYPES_OR_NONE
 
+    # check player suggestions were retrieved
+    assert type(game.player_suggestions) == list
+    for suggestion in game.player_suggestions:
+        assert type(suggestion) == PlayerSuggestion
+        assert type(suggestion.player_count) == str
+        assert type(suggestion.best) == int
+        assert type(suggestion.not_recommended) == int
+        assert type(suggestion.recommended) == int
+
+
     # make sure no exception gets thrown
     repr(game)
 
@@ -127,6 +141,12 @@ def test_get_known_game_info(bgg, null_logger):
 def test_get_known_game_info_by_id(bgg):
     game = bgg.game(None, game_id=TEST_GAME_ID, videos=True, versions=True)
     check_game(game)
+
+
+def test_get_known_game_info_by_id_list(bgg):
+    game_list = bgg.game_list(game_id_list=[TEST_GAME_ID, TEST_GAME_ID_2],
+                              videos=True, versions=True)
+    check_game(game_list[0])
 
 
 def test_game_id_with_invalid_params(bgg):

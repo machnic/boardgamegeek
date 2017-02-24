@@ -61,6 +61,26 @@ class BoardGameRank(Thing):
         return "BoardGameRank(id: {}, name: {}, value: {})".format(self.id, self.friendly_name, self.value)
 
 
+class PlayerSuggestion(DictObject):
+    """
+    Player Suggestion
+    """
+    def __init__(self, data):
+        super(PlayerSuggestion, self).__init__(data)
+
+    @property
+    def numeric_player_count(self):
+        """
+        Convert player count to a an int
+        If player count contains a + symbol
+        then add one to the player count
+        """
+        if '+' in self.player_count:
+            return int(self.player_count[:-1]) + 1
+        else:
+            return int(self.player_count)
+
+
 class BoardGameStats(DictObject):
     """
     Statistics about a board game
@@ -794,6 +814,17 @@ class BoardGame(BaseGame):
         for comment in data.get("comments", []):
             self.add_comment(comment)
 
+        self._player_suggestion = []
+        if "suggested_players" in data:
+            for count, result in data['suggested_players']['results'].items():
+                suggestion_data = {
+                    'player_count': count,
+                    'best': int(result['best_rating']),
+                    'recommended': int(result['recommended_rating']),
+                    'not_recommended': int(result['not_recommeded_rating']),
+                }
+                self._player_suggestion.append(PlayerSuggestion(suggestion_data))
+
         super(BoardGame, self).__init__(data)
 
     def __repr__(self):
@@ -903,6 +934,14 @@ class BoardGame(BaseGame):
             log.info("versions")
             for v in self.versions:
                 v._format(log)
+                log.info("--------")
+
+        if self.player_suggestions:
+            log.info("Player Suggestions")
+            for v in self.player_suggestions:
+                log.info("- {} - Best: {}, Recommended: {}, Not Recommended: {}"
+                         .format(v.player_count, v.best,
+                                 v.recommended, v.not_recommended))
                 log.info("--------")
 
         log.info("users rated game  : {}".format(self.users_rated))
@@ -1110,3 +1149,11 @@ class BoardGame(BaseGame):
         :rtype: list of :py:class:`boardgamegeek.objects.games.BoardGameVersion`
         """
         return self._versions
+
+    @property
+    def player_suggestions(self):
+        """
+        :return player suggestion list with votes
+        :rtype: list of dicts
+        """
+        return self._player_suggestion

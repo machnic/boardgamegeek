@@ -120,6 +120,34 @@ def create_game_from_xml(xml_root, game_id, html_parser):
 
         data["stats"] = sd
 
+        polls = xml_root.findall("poll")
+        data["suggested_players"] = {}
+        for poll in polls:
+            if poll.attrib.get("name") == "suggested_numplayers":
+                results = poll.findall('results')
+                data["suggested_players"]['total_votes'] = poll.attrib.get('totalvotes')
+                data["suggested_players"]['results'] = {}
+                for result in results:
+                    player_count = result.attrib.get("numplayers")
+                    if result.find("result[@value='Best']") is not None:
+                        data["suggested_players"]['results'][player_count] = {
+                            'best_rating': result.find("result[@value='Best']")
+                            .attrib.get("numvotes"),
+                            'recommended_rating': result
+                            .find("result[@value='Recommended']").attrib.get("numvotes"),
+                            'not_recommeded_rating': result
+                            .find("result[@value='Not Recommended']")
+                            .attrib.get("numvotes"),
+                        }
+                    else:
+                        ''' if there is only one poll player count and no votes recorded
+                            by default it is the the best player count '''
+                        data["suggested_players"]['results'][player_count] = {
+                            'best_rating': '1',
+                            'recommended_rating': '0',
+                            'not_recommeded_rating': '0',
+                        }
+
     return BoardGame(data)
 
 
