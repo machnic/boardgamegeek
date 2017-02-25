@@ -26,7 +26,7 @@ class PyTest(TestCommand):
 tests_require = ["pytest"]
 
 setup(
-    name="boardgamegeek",
+    name="boardgamegeek2",
     version=version["__version__"],
     packages=find_packages(),
     license="BSD",

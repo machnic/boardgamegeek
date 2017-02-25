@@ -2,10 +2,14 @@ Changelog
 =========
 
 
-1.99.0
-------
+boardgamegeek2
+++++++++++++++
 
-This is a pre-release of version 2.0.0, which **breaks compatibility** with the previous API.
+
+0.0.1
+-----
+
+This is a pre-release of version of ``boardgamegeek2``, which **breaks compatibility** with the previous API. 
 
   * The old ``BoardGameGeek`` class has been renamed to ``BGGClient`` because it's shorter and it better reflects what
     the code does: it's a client for the Board Game Geek XML API.
@@ -19,6 +23,10 @@ This is a pre-release of version 2.0.0, which **breaks compatibility** with the 
     an exception is raised instead (:py:class:`boardgamegeek.exceptions.BGGItemNotFoundError`)
 
   * Improved documentation
+
+
+boardgamegeek
++++++++++++++
 
 
 0.13.2
