@@ -61,24 +61,107 @@ class BoardGameRank(Thing):
         return "BoardGameRank(id: {}, name: {}, value: {})".format(self.id, self.friendly_name, self.value)
 
 
-class PlayerSuggestion(DictObject):
+class PollResultLanguageDependence(DictObject):
     """
-    Player Suggestion
+    Stores poll results for the game's language dependence
     """
     def __init__(self, data):
-        super(PlayerSuggestion, self).__init__(data)
+        super(PollResultLanguageDependence, self).__init__(data)
 
     @property
-    def numeric_player_count(self):
+    def level(self):
         """
-        Convert player count to a an int
-        If player count contains a + symbol
-        then add one to the player count
         """
-        if '+' in self.player_count:
-            return int(self.player_count[:-1]) + 1
-        else:
-            return int(self.player_count)
+        return self._level
+
+    @property
+    def description(self):
+        """
+
+        :return: text description for this language dependence level
+        """
+        return self._description
+
+    @property
+    def votes(self):
+        """
+        :return: the number of votes in the "Best" category, for this number of players
+        :rtype: int
+        """
+        return self._votes
+
+    def _format(self, log):
+        log.info("> {} (level {}): votes: {}".format(self._description,
+                                                     self._level,
+                                                     self._votes))
+
+
+class PollResultPlayerNumber(DictObject):
+    """
+    Stores poll results for the number of players
+    """
+    def __init__(self, data):
+        super(PollResultPlayerNumber, self).__init__(data)
+
+    @property
+    def player_number(self):
+        """
+        """
+        return self._count
+
+    @property
+    def votes_for_best(self):
+        """
+        :return: the number of votes in the "Best" category, for this number of players
+        :rtype: int
+        """
+        return self._best
+
+    @property
+    def votes_for_recommended(self):
+        """
+        :return: the number of votes in the "Recommended" category, for this number of players
+        :rtype: int
+        """
+        return self._recommended
+
+    @property
+    def votes_for_not_recommended(self):
+        """
+        :return: the number of votes in the "Not Recommended" category, for this number of players
+        """
+        return self._not_recommended
+
+    def _format(self, log):
+        log.info("> {} players: votes: {} for best, {} for recommended, {} for not recommended".format(self._count,
+                                                                                                       self._best,
+                                                                                                       self._recommended,
+                                                                                                       self._not_recommended))
+
+
+class PollResultPlayerAge(DictObject):
+    """
+    Stores poll results for player age
+    """
+    def __init__(self, data):
+        super(PollResultPlayerAge, self).__init__(data)
+
+    @property
+    def player_age(self):
+        """
+        """
+        return self._age
+
+    @property
+    def votes(self):
+        """
+        :return: the number of votes for this age
+        :rtype: int
+        """
+        return self._votes
+
+    def _format(self, log):
+        log.info("> {} years: votes: {}".format(self._age, self._votes))
 
 
 class BoardGameStats(DictObject):
@@ -814,16 +897,29 @@ class BoardGame(BaseGame):
         for comment in data.get("comments", []):
             self.add_comment(comment)
 
-        self._player_suggestion = []
-        if "suggested_players" in data:
-            for count, result in data['suggested_players']['results'].items():
+        self._poll_results_numplayers = []
+        if "suggested_numplayers" in data:
+            for count, result in data["suggested_numplayers"]["results"].items():
                 suggestion_data = {
-                    'player_count': count,
-                    'best': int(result['best_rating']),
-                    'recommended': int(result['recommended_rating']),
-                    'not_recommended': int(result['not_recommeded_rating']),
+                    "_count": count,
+                    "_best": result["best"],
+                    "_recommended": result["recommended"],
+                    "_not_recommended": result["not_recommended"],
                 }
-                self._player_suggestion.append(PlayerSuggestion(suggestion_data))
+                self._poll_results_numplayers.append(PollResultPlayerNumber(suggestion_data))
+
+        self._poll_results_playerage = []
+        if "suggested_playerage" in data:
+            for age, num_votes in data["suggested_playerage"]["results"].items():
+                self._poll_results_playerage.append(PollResultPlayerAge({"_age": age,
+                                                                         "_votes": num_votes}))
+
+        self._poll_results_langdeps = []
+        if "language_dependence" in data:
+            for level, d in data["language_dependence"]["results"].items():
+                self._poll_results_langdeps.append(PollResultLanguageDependence({"_level": level,
+                                                                                 "_description": d["description"],
+                                                                                 "_votes": d["num_votes"]}))
 
         super(BoardGame, self).__init__(data)
 
@@ -936,13 +1032,23 @@ class BoardGame(BaseGame):
                 v._format(log)
                 log.info("--------")
 
-        if self.player_suggestions:
-            log.info("Player Suggestions")
-            for v in self.player_suggestions:
-                log.info("- {} - Best: {}, Recommended: {}, Not Recommended: {}"
-                         .format(v.player_count, v.best,
-                                 v.recommended, v.not_recommended))
-                log.info("--------")
+        if self.player_number_votes:
+            log.info("poll: player number results")
+            for v in self.player_number_votes:
+                v._format(log)
+            log.info("--------")
+
+        if self.player_age_votes:
+            log.info("poll: player age results")
+            for v in self.player_age_votes:
+                v._format(log)
+            log.info("--------")
+
+        if self.language_dependence_votes:
+            log.info("poll: language dependence results")
+            for v in self.language_dependence_votes:
+                v._format(log)
+            log.info("--------")
 
         log.info("users rated game  : {}".format(self.users_rated))
         log.info("users avg rating  : {}".format(self.rating_average))
@@ -1151,9 +1257,25 @@ class BoardGame(BaseGame):
         return self._versions
 
     @property
-    def player_suggestions(self):
+    def player_number_votes(self):
         """
-        :return player suggestion list with votes
-        :rtype: list of dicts
+        :return list of player number votes
+        :rtype: list of :py:class:`boardgamegeek.games.PollResultPlayerNumber`
         """
-        return self._player_suggestion
+        return self._poll_results_numplayers
+
+    @property
+    def player_age_votes(self):
+        """
+        :return list of player age suggestions, with votes
+        :rtype: list of :py:class:`boardgamegeek.games.PollResultPlayerAge`
+        """
+        return self._poll_results_playerage
+
+    @property
+    def language_dependence_votes(self):
+        """
+        :return list of language dependence votes
+        :rtype: list of :py:class:`boardgamegeek.games.PollResultPlayerAge`
+        """
+        return self._poll_results_langdeps
