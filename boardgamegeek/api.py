@@ -563,9 +563,9 @@ class BGGCommon(object):
         if subtype not in COLLECTION_SUBTYPES:
             raise BGGValueError("invalid 'subtype'")
 
-        params={"username": user_name,
-                "subtype": subtype,
-                "stats": 1}
+        params = {"username": user_name,
+                  "subtype": subtype,
+                  "stats": 1}
 
         if exclude_subtype is not None:
             if exclude_subtype not in COLLECTION_SUBTYPES:
@@ -730,7 +730,8 @@ class BGGClient(BGGCommon):
             >>> bgg_sqlite_cache = BGGClient(cache=CacheBackendSqlite(path="/path/to/cache.db", ttl=3600))
 
     """
-    def __init__(self, cache=CacheBackendMemory(ttl=3600), timeout=15, retries=3, retry_delay=5, disable_ssl=False, requests_per_minute=DEFAULT_REQUESTS_PER_MINUTE):
+    def __init__(self, cache=CacheBackendMemory(ttl=3600), timeout=15, retries=3, retry_delay=5,
+                 disable_ssl=False, requests_per_minute=DEFAULT_REQUESTS_PER_MINUTE):
 
         api_endpoint = "http{}://www.boardgamegeek.com/xmlapi2".format("" if disable_ssl else "s")
         super(BGGClient, self).__init__(api_endpoint=api_endpoint,
@@ -756,7 +757,6 @@ class BGGClient(BGGCommon):
         """
         return self._get_game_id(name, game_type=BGGRestrictSearchResultsTo.BOARD_GAME, choose=choose)
 
-    
     def game_list(self, game_id_list=[], versions=False,
                   videos=False, historical=False, marketplace=False):
         """
@@ -781,9 +781,9 @@ class BGGClient(BGGCommon):
         if not game_id_list:
             raise BGGError("List of Game Ids must be specified")
 
-        log.debug("retrieving games {}".format(game_id_list,))
+        log.debug("retrieving games {}".format(game_id_list))
 
-        params = {"id": ','.join([str(game_id) for game_id in game_id_list]),
+        params = {"id": ",".join([str(game_id) for game_id in game_id_list]),
                   "versions": 1 if versions else 0,
                   "videos": 1 if videos else 0,
                   "historical": 1 if historical else 0,
@@ -810,7 +810,6 @@ class BGGClient(BGGCommon):
             game_list.append(game)
 
         return game_list
-
 
     def game(self, name=None, game_id=None, choose=BGGChoose.FIRST, versions=False, videos=False, historical=False,
              marketplace=False, comments=False, rating_comments=False, progress=None):
