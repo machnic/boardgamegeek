@@ -7,6 +7,9 @@ python:
   - "3.5"
 install:
   - pip install python-coveralls
+  - ls -la
+  - pwd
+  - env
   - python setup.py install
 script:
   - coverage run --source boardgamegeek2 --omit boardgamegeek2/main.py -m py.test 
