@@ -37,7 +37,7 @@ def check_game(game):
     assert game.name == TEST_GAME_NAME
     assert game.id == TEST_GAME_ID
     assert game.year == 2007
-    assert game.mechanics == ["Area Enclosure", "Card Drafting", "Hand Management",
+    assert game.mechanics == ["Card Drafting", "Hand Management",
                               "Variable Phase Order", "Variable Player Powers",
                               "Worker Placement"]
     assert game.min_players == 1
