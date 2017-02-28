@@ -6,7 +6,7 @@ from ..exceptions import BGGItemNotFoundError
 from ..utils import xml_subelement_attr
 
 
-log = logging.getLogger("boardgamegeek.loaders.user")
+log = logging.getLogger("boardgamegeek2.loaders.user")
 
 
 def create_user_from_xml(xml_root, html_parser):

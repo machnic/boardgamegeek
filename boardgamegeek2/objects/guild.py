@@ -1,9 +1,9 @@
 # coding: utf-8
 """
-:mod:`boardgamegeek.objects.guild` - Classes for storing guild data
+:mod:`boardgamegeek2.objects.guild` - Classes for storing guild data
 ===================================================================
 
-.. module:: boardgamegeek.objects.guild
+.. module:: boardgamegeek2.objects.guild
    :platform: Unix, Windows
    :synopsis: classes for storing guild data
 

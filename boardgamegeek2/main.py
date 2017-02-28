@@ -3,9 +3,9 @@ import sys
 import argparse
 import logging
 
-from boardgamegeek.api import BGGClient, BGGChoose, BGGHotItemType
+from boardgamegeek2.api import BGGClient, BGGChoose, BGGHotItemType
 
-log = logging.getLogger("boardgamegeek")
+log = logging.getLogger("boardgamegeek2")
 log_fmt = "[%(levelname)s] %(message)s"
 
 
@@ -38,7 +38,7 @@ def brief_game_stats(game):
 
 
 def main():
-    p = argparse.ArgumentParser(prog="boardgamegeek")
+    p = argparse.ArgumentParser(prog="boardgamegeek2")
 
     p.add_argument("-u", "--user", help="Query by user name")
     p.add_argument("-g", "--game", help="Query by game name")

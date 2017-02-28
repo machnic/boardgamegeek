@@ -1,9 +1,9 @@
 # coding: utf-8
 """
-:mod:`boardgamegeek.exceptions` - Exceptions
+:mod:`boardgamegeek2.exceptions` - Exceptions
 ============================================
 
-.. module:: boardgamegeek.exceptions
+.. module:: boardgamegeek2.exceptions
    :platform: Unix, Windows
    :synopsis: exceptions used in the package
 

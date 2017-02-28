@@ -1,9 +1,9 @@
 # coding: utf-8
 """
-:mod:`boardgamegeek.objects.user` - Classes for storing user data
+:mod:`boardgamegeek2.objects.user` - Classes for storing user data
 =================================================================
 
-.. module:: boardgamegeek.objects.user
+.. module:: boardgamegeek2.objects.user
    :platform: Unix, Windows
    :synopsis: class for storing user data
 
@@ -131,7 +131,7 @@ class User(Thing):
     def top10(self):
         """
         :return: user's top10
-        :rtype: list of :py:class:`boardgamegeek.things.Thing`
+        :rtype: list of :py:class:`boardgamegeek2.things.Thing`
         """
         return self._top
 
@@ -139,7 +139,7 @@ class User(Thing):
     def hot10(self):
         """
         :return: user's hot10
-        :rtype: list of :py:class:`boardgamegeek.things.Thing`
+        :rtype: list of :py:class:`boardgamegeek2.things.Thing`
         """
         return self._hot
 
@@ -147,7 +147,7 @@ class User(Thing):
     def buddies(self):
         """
         :return: user's buddies
-        :rtype: list of :py:class:`boardgamegeek.things.Thing`
+        :rtype: list of :py:class:`boardgamegeek2.things.Thing`
         """
         return self._buddies
 
@@ -155,7 +155,7 @@ class User(Thing):
     def guilds(self):
         """
         :return: user's guilds
-        :rtype: list of :py:class:`boardgamegeek.things.Thing`
+        :rtype: list of :py:class:`boardgamegeek2.things.Thing`
         """
         return self._guilds
 

@@ -1,9 +1,9 @@
 # coding: utf-8
 """
-:mod:`boardgamegeek.utils` - Generic helper functions
+:mod:`boardgamegeek2.utils` - Generic helper functions
 =====================================================
 
-.. module:: boardgamegeek.utils
+.. module:: boardgamegeek2.utils
    :platform: Unix, Windows
    :synopsis: generic helper functions
 
@@ -28,7 +28,7 @@ except:
 
 from .exceptions import BGGApiError, BGGApiRetryError, BGGError, BGGApiTimeoutError
 
-log = logging.getLogger("boardgamegeek.utils")
+log = logging.getLogger("boardgamegeek2.utils")
 
 DEFAULT_REQUESTS_PER_MINUTE = 30
 

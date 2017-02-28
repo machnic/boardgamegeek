@@ -1,10 +1,10 @@
 # coding: utf8
 """
 
-:mod:`boardgamegeek.objects.search` - Classes for storing search results
+:mod:`boardgamegeek2.objects.search` - Classes for storing search results
 ========================================================================
 
-.. module:: boardgamegeek.objects.search
+.. module:: boardgamegeek2.objects.search
    :platform: Unix, Windows
    :synopsis: classes for storing search results
 
@@ -13,9 +13,9 @@
 """
 from __future__ import unicode_literals
 
-from boardgamegeek.objects.things import Thing
-from boardgamegeek.exceptions import BGGError
-from boardgamegeek.utils import fix_unsigned_negative
+from boardgamegeek2.objects.things import Thing
+from boardgamegeek2.exceptions import BGGError
+from boardgamegeek2.utils import fix_unsigned_negative
 
 
 class SearchResult(Thing):

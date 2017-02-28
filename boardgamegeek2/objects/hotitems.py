@@ -1,10 +1,10 @@
 # coding: utf-8
 
 """
-:mod:`boardgamegeek.objects.hotitems` - Classes for storing "Hot Item" data
+:mod:`boardgamegeek2.objects.hotitems` - Classes for storing "Hot Item" data
 ===========================================================================
 
-.. module:: boardgamegeek.hotitems
+.. module:: boardgamegeek2.hotitems
    :platform: Unix, Windows
    :synopsis: classes for storing "Hot Item" data
 
@@ -74,7 +74,7 @@ class HotItem(Thing):
 
 class HotItems(DictObject):
     """
-    A collection of :py:class:`boardgamegeek.objects.hotitems.HotItem`
+    A collection of :py:class:`boardgamegeek2.objects.hotitems.HotItem`
     """
     def __init__(self, data):
         kw = copy(data)
@@ -100,7 +100,7 @@ class HotItems(DictObject):
     def items(self):
         """
         :return: list of hotitems
-        :rtype: list of :py:class:`boardgamegeek.objects.hotitems.HotItem`
+        :rtype: list of :py:class:`boardgamegeek2.objects.hotitems.HotItem`
         """
         return self._items
 

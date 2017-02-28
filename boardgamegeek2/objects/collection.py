@@ -1,9 +1,9 @@
 # coding: utf-8
 """
-:mod:`boardgamegeek.objects.collection` - classes for storing collection data
+:mod:`boardgamegeek2.objects.collection` - classes for storing collection data
 =============================================================================
 
-.. module:: boardgamegeek.objects.collection
+.. module:: boardgamegeek2.objects.collection
    :platform: Unix, Windows
    :synopsis: classes for storing collection data
 
@@ -24,7 +24,7 @@ class Collection(DictObject):
     A dictionary-like object represeting a ``Collection``
 
     :param dict data: a dictionary containing the collection data
-    :raises: :py:class:`boardgamegeek.exceptions.BoardGameGeekError` in case of invalid data
+    :raises: :py:class:`boardgamegeek2.exceptions.BoardGameGeekError` in case of invalid data
     """
     def __init__(self, data):
         kw = copy(data)
@@ -52,7 +52,7 @@ class Collection(DictObject):
         Add a game to the ``Collection``
 
         :param dict game: game data
-        :raises: :py:class:`boardgamegeek.exceptions.BoardGameGeekError` in case of invalid data
+        :raises: :py:class:`boardgamegeek2.exceptions.BoardGameGeekError` in case of invalid data
         """
         try:
             # Collections can have duplicate elements (different collection ids), so don't add the same thing
@@ -88,7 +88,7 @@ class Collection(DictObject):
         Returns the items in the collection
 
         :returns: the items in the collection
-        :rtype: list of :py:class:`boardgamegeek.objects.games.CollectionBoardGame`
+        :rtype: list of :py:class:`boardgamegeek2.objects.games.CollectionBoardGame`
         """
         return self._items
 

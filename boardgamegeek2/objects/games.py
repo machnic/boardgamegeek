@@ -1,9 +1,9 @@
 # coding: utf-8
 """
-:mod:`boardgamegeek.objects.games` - Classes for storing game data
+:mod:`boardgamegeek2.objects.games` - Classes for storing game data
 ==================================================================
 
-.. module:: boardgamegeek.objects.games
+.. module:: boardgamegeek2.objects.games
    :platform: Unix, Windows
    :synopsis: classes for storing games data
 
@@ -193,7 +193,7 @@ class BoardGameStats(DictObject):
     def ranks(self):
         """
         :return: list of ranks for this game
-        :rtype: list of :py:class:`boardgamegeek.objects.games.BoardGameRank`
+        :rtype: list of :py:class:`boardgamegeek2.objects.games.BoardGameRank`
         """
         return self._ranks
 
@@ -699,7 +699,7 @@ class BaseGame(Thing):
     def ranks(self):
         """
         :return: rankings of this game
-        :rtype: list of :py:class:`boardgamegeek.objects.games.BoardGameRank`
+        :rtype: list of :py:class:`boardgamegeek2.objects.games.BoardGameRank`
         :return: ``None`` if n/a
         """
         return self._stats.ranks
@@ -934,7 +934,7 @@ class BoardGame(BaseGame):
         Add a game expanded by this one
 
         :param dict data: expanded game's data
-        :raises: :py:exc:`boardgamegeek.exceptions.BoardGameGeekError` if data is invalid
+        :raises: :py:exc:`boardgamegeek2.exceptions.BoardGameGeekError` if data is invalid
         """
         try:
             if data["id"] not in self._expands_set:
@@ -949,7 +949,7 @@ class BoardGame(BaseGame):
         Add an expansion of this game
 
         :param dict data: expansion data
-        :raises: :py:exc:`boardgamegeek.exceptions.BoardGameGeekError` if data is invalid
+        :raises: :py:exc:`boardgamegeek2.exceptions.BoardGameGeekError` if data is invalid
         """
         try:
             if data["id"] not in self._expansions_set:
@@ -1100,7 +1100,7 @@ class BoardGame(BaseGame):
     def comments(self):
         """
         :return: comments for this game
-        :rtype: list of :py:class:`boardgamegeek.objects.games.BoardGameComment`
+        :rtype: list of :py:class:`boardgamegeek2.objects.games.BoardGameComment`
         """
         return self._comments
 
@@ -1116,7 +1116,7 @@ class BoardGame(BaseGame):
     def expansions(self):
         """
         :return: expansions
-        :rtype: list of :py:class:`boardgamegeek.objects.things.Thing`
+        :rtype: list of :py:class:`boardgamegeek2.objects.things.Thing`
         """
         return self._expansions
 
@@ -1124,7 +1124,7 @@ class BoardGame(BaseGame):
     def expands(self):
         """
         :return: games this item expands
-        :rtype: list of :py:class:`boardgamegeek.objects.things.Thing`
+        :rtype: list of :py:class:`boardgamegeek2.objects.things.Thing`
         """
         return self._expands
 
@@ -1244,7 +1244,7 @@ class BoardGame(BaseGame):
     def videos(self):
         """
         :return: videos of this game
-        :rtype: list of :py:class:`boardgamegeek.objects.games.BoardGameVideo`
+        :rtype: list of :py:class:`boardgamegeek2.objects.games.BoardGameVideo`
         """
         return self._videos
 
@@ -1252,7 +1252,7 @@ class BoardGame(BaseGame):
     def versions(self):
         """
         :return: versions of this game
-        :rtype: list of :py:class:`boardgamegeek.objects.games.BoardGameVersion`
+        :rtype: list of :py:class:`boardgamegeek2.objects.games.BoardGameVersion`
         """
         return self._versions
 
@@ -1260,7 +1260,7 @@ class BoardGame(BaseGame):
     def player_number_votes(self):
         """
         :return list of player number votes
-        :rtype: list of :py:class:`boardgamegeek.games.PollResultPlayerNumber`
+        :rtype: list of :py:class:`boardgamegeek2.games.PollResultPlayerNumber`
         """
         return self._poll_results_numplayers
 
@@ -1268,7 +1268,7 @@ class BoardGame(BaseGame):
     def player_age_votes(self):
         """
         :return list of player age suggestions, with votes
-        :rtype: list of :py:class:`boardgamegeek.games.PollResultPlayerAge`
+        :rtype: list of :py:class:`boardgamegeek2.games.PollResultPlayerAge`
         """
         return self._poll_results_playerage
 
@@ -1276,6 +1276,6 @@ class BoardGame(BaseGame):
     def language_dependence_votes(self):
         """
         :return list of language dependence votes
-        :rtype: list of :py:class:`boardgamegeek.games.PollResultPlayerAge`
+        :rtype: list of :py:class:`boardgamegeek2.games.PollResultPlayerAge`
         """
         return self._poll_results_langdeps

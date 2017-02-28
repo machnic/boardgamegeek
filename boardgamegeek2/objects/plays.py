@@ -1,9 +1,9 @@
 # coding: utf-8
 """
-:mod:`boardgamegeek.objects.plays` - Classes for storing plays/play sessions data
+:mod:`boardgamegeek2.objects.plays` - Classes for storing plays/play sessions data
 =================================================================================
 
-.. module:: boardgamegeek.objects.plays
+.. module:: boardgamegeek2.objects.plays
    :platform: Unix, Windows
    :synopsis: classes for plays/play sessions data
 
@@ -14,8 +14,8 @@ from __future__ import unicode_literals
 from copy import copy
 import datetime
 
-from boardgamegeek.exceptions import BGGError
-from boardgamegeek.utils import DictObject
+from boardgamegeek2.exceptions import BGGError
+from boardgamegeek2.utils import DictObject
 
 
 class PlaySessionPlayer(DictObject):
@@ -23,7 +23,7 @@ class PlaySessionPlayer(DictObject):
     Class representing a player in a play session
 
     :param dict data: a dictionary containing the collection data
-    :raises: :py:class:`boardgamegeek.exceptions.BoardGameGeekError` in case of invalid data
+    :raises: :py:class:`boardgamegeek2.exceptions.BoardGameGeekError` in case of invalid data
     """
 
     def __init__(self, data):
@@ -110,7 +110,7 @@ class PlaySession(DictObject):
     Container for a play session information.
 
     :param dict data: a dictionary containing the collection data
-    :raises: :py:class:`boardgamegeek.exceptions.BoardGameGeekError` in case of invalid data
+    :raises: :py:class:`boardgamegeek2.exceptions.BoardGameGeekError` in case of invalid data
     """
 
     def __init__(self, data):
@@ -276,7 +276,7 @@ class Plays(DictObject):
     def plays(self):
         """
         :return: play sessions
-        :rtype: list of :py:class:`boardgamegeek.plays.PlaySession`
+        :rtype: list of :py:class:`boardgamegeek2.plays.PlaySession`
         """
         return self._plays
 

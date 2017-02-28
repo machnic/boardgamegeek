@@ -1,6 +1,6 @@
 # coding: utf-8
 """
-.. module:: boardgamegeek
+.. module:: boardgamegeek2
    :platform: Unix, Windows
    :synopsis: interface to boardgamegeek.com
 

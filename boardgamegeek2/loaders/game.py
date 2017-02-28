@@ -5,7 +5,7 @@ from ..exceptions import BGGApiError
 from ..utils import xml_subelement_attr_list, xml_subelement_text, xml_subelement_attr, get_board_game_version_from_element
 
 
-log = logging.getLogger("boardgamegeek.loaders.game")
+log = logging.getLogger("boardgamegeek2.loaders.game")
 
 
 def parse_language_dependence_poll(poll, data):

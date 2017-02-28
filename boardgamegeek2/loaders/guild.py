@@ -5,7 +5,7 @@ from ..exceptions import BGGItemNotFoundError
 from ..utils import xml_subelement_text
 
 
-log = logging.getLogger("boardgamegeek.loaders.guild")
+log = logging.getLogger("boardgamegeek2.loaders.guild")
 
 
 def create_guild_from_xml(xml_root, html_parser):
@@ -42,7 +42,7 @@ def create_guild_from_xml(xml_root, html_parser):
 def add_guild_members_from_xml(guild, xml_root):
     """
     Processes the XML and adds members to ``guild``
-    :param Guild guild: the :py:class:`boardgamegeek.objects.guild.Guild` object to add members to
+    :param Guild guild: the :py:class:`boardgamegeek2.objects.guild.Guild` object to add members to
     :param ElementTree xml_root: XML node
     :return: True if at least a member was added, False otherwise
     """

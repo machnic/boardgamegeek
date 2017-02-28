@@ -6,7 +6,7 @@ from setuptools.command.test import test as TestCommand
 from codecs import open
 
 version = {}
-with open("boardgamegeek/version.py") as fp:
+with open("boardgamegeek2/version.py") as fp:
     exec(fp.read(), version)
 
 long_description = open("README.rst", encoding="utf-8").read()
@@ -56,7 +56,7 @@ setup(
                       "requests-cache>=0.4.4"],
     entry_points={
         "console_scripts": [
-            "boardgamegeek = boardgamegeek.main:main"
+            "boardgamegeek2 = boardgamegeek2.main:main"
         ]
     }
 )
