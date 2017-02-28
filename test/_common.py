@@ -3,7 +3,7 @@ import pytest
 import xml.etree.ElementTree as ET
 
 
-from boardgamegeek import BGGClient, CacheBackendNone
+from boardgamegeek2 import BGGClient, CacheBackendNone
 
 
 # Kinda hard to test without having a "test" user

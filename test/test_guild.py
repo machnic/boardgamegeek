@@ -1,4 +1,4 @@
-from boardgamegeek import BGGItemNotFoundError, BGGValueError
+from boardgamegeek2 import BGGItemNotFoundError, BGGValueError
 
 from _common import *
 

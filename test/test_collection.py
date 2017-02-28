@@ -3,9 +3,9 @@ from __future__ import unicode_literals
 import pytest
 
 from _common import *
-from boardgamegeek import BGGError, BGGValueError, BGGItemNotFoundError
-from boardgamegeek.objects.collection import CollectionBoardGame, Collection
-from boardgamegeek.objects.games import BoardGameVersion
+from boardgamegeek2 import BGGError, BGGValueError, BGGItemNotFoundError
+from boardgamegeek2.objects.collection import CollectionBoardGame, Collection
+from boardgamegeek2.objects.games import BoardGameVersion
 
 
 def test_get_collection_with_invalid_parameters(bgg):

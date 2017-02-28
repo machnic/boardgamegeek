@@ -1,5 +1,5 @@
 from _common import *
-from boardgamegeek import BGGValueError, BGGRestrictSearchResultsTo
+from boardgamegeek2 import BGGValueError, BGGRestrictSearchResultsTo
 
 
 def test_search(bgg):

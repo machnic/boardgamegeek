@@ -1,5 +1,5 @@
-from boardgamegeek import BGGError, BGGValueError
-from boardgamegeek.objects.hotitems import HotItems, HotItem
+from boardgamegeek2 import BGGError, BGGValueError
+from boardgamegeek2.objects.hotitems import HotItems, HotItem
 
 from _common import *
 

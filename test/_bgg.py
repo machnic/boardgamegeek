@@ -10,10 +10,10 @@ import time
 
 import pytest
 
-import boardgamegeek.utils as bggutil
-from boardgamegeek import *
-from boardgamegeek.api import BGGCommon
-from boardgamegeek.objects.things import Thing
+import boardgamegeek2.utils as bggutil
+from boardgamegeek2 import *
+from boardgamegeek2.api import BGGCommon
+from boardgamegeek2.objects.things import Thing
 
 from _common import *
 

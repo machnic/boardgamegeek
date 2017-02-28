@@ -2,7 +2,7 @@ import os
 import tempfile
 
 from _common import *
-from boardgamegeek import BGGValueError, CacheBackendNone, CacheBackendSqlite
+from boardgamegeek2 import BGGValueError, CacheBackendNone, CacheBackendSqlite
 
 
 #

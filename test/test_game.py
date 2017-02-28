@@ -3,9 +3,9 @@ import datetime
 import sys
 
 from _common import *
-from boardgamegeek import BGGError, BGGItemNotFoundError, BGGValueError
-from boardgamegeek.objects.games import BoardGameVideo, BoardGameVersion, BoardGameRank
-from boardgamegeek.objects.games import PollResultPlayerNumber, PollResultPlayerAge, PollResultLanguageDependence
+from boardgamegeek2 import BGGError, BGGItemNotFoundError, BGGValueError
+from boardgamegeek2.objects.games import BoardGameVideo, BoardGameVersion, BoardGameRank
+from boardgamegeek2.objects.games import PollResultPlayerNumber, PollResultPlayerAge, PollResultLanguageDependence
 
 if sys.version_info >= (3,):
     STR_TYPES_OR_NONE = [str, type(None)]

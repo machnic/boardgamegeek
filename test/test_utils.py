@@ -2,9 +2,9 @@ import pickle
 import threading
 import time
 
-import boardgamegeek.utils as bggutil
+import boardgamegeek2.utils as bggutil
 from _common import *
-from boardgamegeek.objects.things import Thing
+from boardgamegeek2.objects.things import Thing
 
 
 def test_get_xml_subelement_attr(xml):
