@@ -20,7 +20,7 @@ This is a pre-release of version of ``boardgamegeek2``, which **breaks compatibi
   * Refactored exceptions classes
 
   * In the previous versions, in case something was not found (e.g. a game, an user, etc.), ``None`` was returned. Now,
-    an exception is raised instead (:py:class:`boardgamegeek.exceptions.BGGItemNotFoundError`)
+    an exception is raised instead (:py:class:`boardgamegeek2.exceptions.BGGItemNotFoundError`)
 
   * Improved documentation
 

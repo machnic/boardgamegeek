@@ -1,6 +1,6 @@
-==================================================
-boardgamegeek - A Python API for boardgamegeek.com
-==================================================
+===================================================
+boardgamegeek2 - A Python API for boardgamegeek.com
+===================================================
 
 .. note::
 
@@ -11,7 +11,7 @@ Introduction
 ============
 
 
-``boardgamegeek`` is a Python library which makes it easy to access data from BoardGameGeek_ using their official XML
+``boardgamegeek2`` is a Python library which makes it easy to access data from BoardGameGeek_ using their official XML
 API.
 
 It's an almost completely rewritten fork of libBGG_.
@@ -47,9 +47,9 @@ requests-cache_ is used for locally caching replies in order to reduce the amoun
 Quick Install
 =============
 
-To install ``boardgamegeek``, just use pip::
+To install ``boardgamegeek2``, just use pip::
 
-    > pip install boardgamegeek
+    > pip install boardgamegeek2
 
 
 Usage
@@ -59,7 +59,7 @@ Here's a quick usage example:
 
 .. code-block:: pycon
 
-    >>> from boardgamegeek import BGGClient
+    >>> from boardgamegeek2 import BGGClient
     >>> bgg = BGGClient()
     >>> g = bgg.game("Android: Netrunner")
     >>> g.name

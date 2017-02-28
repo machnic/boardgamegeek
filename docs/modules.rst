@@ -1,113 +1,113 @@
 Modules
 =======
 
-.. automodule:: boardgamegeek.api
+.. automodule:: boardgamegeek2.api
 
-  .. autoclass:: boardgamegeek.api.BGGClient
+  .. autoclass:: boardgamegeek2.api.BGGClient
       :members:
       :inherited-members:
 
 
-.. automodule:: boardgamegeek.objects.collection
+.. automodule:: boardgamegeek2.objects.collection
 
-  .. autoclass:: boardgamegeek.objects.collection.Collection
+  .. autoclass:: boardgamegeek2.objects.collection.Collection
       :members:
 
 
-.. automodule:: boardgamegeek.exceptions
+.. automodule:: boardgamegeek2.exceptions
 
-  .. autoclass:: boardgamegeek.exceptions.BGGValueError
-  .. autoclass:: boardgamegeek.exceptions.BGGError
-  .. autoclass:: boardgamegeek.exceptions.BGGItemNotFoundError
-  .. autoclass:: boardgamegeek.exceptions.BGGApiTimeoutError
-  .. autoclass:: boardgamegeek.exceptions.BGGApiError
-  .. autoclass:: boardgamegeek.exceptions.BGGApiRetryError
+  .. autoclass:: boardgamegeek2.exceptions.BGGValueError
+  .. autoclass:: boardgamegeek2.exceptions.BGGError
+  .. autoclass:: boardgamegeek2.exceptions.BGGItemNotFoundError
+  .. autoclass:: boardgamegeek2.exceptions.BGGApiTimeoutError
+  .. autoclass:: boardgamegeek2.exceptions.BGGApiError
+  .. autoclass:: boardgamegeek2.exceptions.BGGApiRetryError
 
 
-.. automodule:: boardgamegeek.objects.games
+.. automodule:: boardgamegeek2.objects.games
 
-  .. autoclass:: boardgamegeek.objects.games.BoardGameRank
-      :members:
-      :inherited-members:
-
-  .. autoclass:: boardgamegeek.objects.games.BoardGameStats
+  .. autoclass:: boardgamegeek2.objects.games.BoardGameRank
       :members:
       :inherited-members:
 
-  .. autoclass:: boardgamegeek.objects.games.BoardGameComment
+  .. autoclass:: boardgamegeek2.objects.games.BoardGameStats
       :members:
       :inherited-members:
 
-  .. autoclass:: boardgamegeek.objects.games.BoardGameVideo
+  .. autoclass:: boardgamegeek2.objects.games.BoardGameComment
       :members:
       :inherited-members:
 
-  .. autoclass:: boardgamegeek.objects.games.BoardGameVersion
+  .. autoclass:: boardgamegeek2.objects.games.BoardGameVideo
       :members:
       :inherited-members:
 
-
-  .. autoclass:: boardgamegeek.objects.games.CollectionBoardGame
-      :members:
-      :inherited-members:
-
-  .. autoclass:: boardgamegeek.objects.games.BoardGame
+  .. autoclass:: boardgamegeek2.objects.games.BoardGameVersion
       :members:
       :inherited-members:
 
 
-.. automodule:: boardgamegeek.objects.guild
-
-  .. autoclass:: boardgamegeek.objects.guild.Guild
+  .. autoclass:: boardgamegeek2.objects.games.CollectionBoardGame
       :members:
       :inherited-members:
 
-.. automodule:: boardgamegeek.objects.hotitems
-
-  .. autoclass:: boardgamegeek.objects.hotitems.HotItem
+  .. autoclass:: boardgamegeek2.objects.games.BoardGame
       :members:
       :inherited-members:
 
-  .. autoclass:: boardgamegeek.objects.hotitems.HotItems
+
+.. automodule:: boardgamegeek2.objects.guild
+
+  .. autoclass:: boardgamegeek2.objects.guild.Guild
       :members:
       :inherited-members:
 
-.. automodule:: boardgamegeek.objects.plays
+.. automodule:: boardgamegeek2.objects.hotitems
 
-  .. autoclass:: boardgamegeek.objects.plays.PlaySessionPlayer
+  .. autoclass:: boardgamegeek2.objects.hotitems.HotItem
       :members:
       :inherited-members:
 
-  .. autoclass:: boardgamegeek.objects.plays.PlaySession
+  .. autoclass:: boardgamegeek2.objects.hotitems.HotItems
       :members:
       :inherited-members:
 
-  .. autoclass:: boardgamegeek.objects.plays.Plays
+.. automodule:: boardgamegeek2.objects.plays
+
+  .. autoclass:: boardgamegeek2.objects.plays.PlaySessionPlayer
       :members:
       :inherited-members:
 
-  .. autoclass:: boardgamegeek.objects.plays.UserPlays
+  .. autoclass:: boardgamegeek2.objects.plays.PlaySession
       :members:
       :inherited-members:
 
-  .. autoclass:: boardgamegeek.objects.plays.GamePlays
+  .. autoclass:: boardgamegeek2.objects.plays.Plays
       :members:
       :inherited-members:
 
-.. automodule:: boardgamegeek.objects.search
-
-  .. autoclass:: boardgamegeek.objects.search.SearchResult
+  .. autoclass:: boardgamegeek2.objects.plays.UserPlays
       :members:
       :inherited-members:
 
-.. automodule:: boardgamegeek.objects.things
-
-  .. autoclass:: boardgamegeek.objects.things.Thing
+  .. autoclass:: boardgamegeek2.objects.plays.GamePlays
       :members:
       :inherited-members:
 
-.. automodule:: boardgamegeek.objects.user
+.. automodule:: boardgamegeek2.objects.search
 
-  .. autoclass:: boardgamegeek.objects.user.User
+  .. autoclass:: boardgamegeek2.objects.search.SearchResult
+      :members:
+      :inherited-members:
+
+.. automodule:: boardgamegeek2.objects.things
+
+  .. autoclass:: boardgamegeek2.objects.things.Thing
+      :members:
+      :inherited-members:
+
+.. automodule:: boardgamegeek2.objects.user
+
+  .. autoclass:: boardgamegeek2.objects.user.User
       :members:
       :inherited-members:
