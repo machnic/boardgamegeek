@@ -6,8 +6,8 @@ boardgamegeek2
 ++++++++++++++
 
 
-0.0.1
------
+1.0.0b1
+-------
 
 This is a pre-release of version of ``boardgamegeek2``, which **breaks compatibility** with the previous API. 
 
