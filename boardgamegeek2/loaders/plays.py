@@ -46,7 +46,9 @@ def add_plays_from_xml(plays, xml_root):
                            "new": player.attrib.get("new"),
                            "win": player.attrib.get("win"),
                            "rating": player.attrib.get("rating"),
-                           "score": player.attrib.get("score")}
+                           "score": player.attrib.get("score"),
+                           "color": player.attrib.get("color"),
+                           "location": player.attrib.get("location")}
 
             player_list.append(player_data)
 

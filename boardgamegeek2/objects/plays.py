@@ -104,6 +104,15 @@ class PlaySessionPlayer(DictObject):
         """
         return self._data.get("score")
 
+    @property
+    def color(self):
+        """
+        :return:
+        :rtype:
+        :return: ``None`` if n/a
+        """
+        return self._data.get("color")
+
 
 class PlaySession(DictObject):
     """
@@ -217,6 +226,13 @@ class PlaySession(DictObject):
         :return:
         """
         return self._data.get("nowinstats")
+
+    @property
+    def location(self):
+        """
+        :return:
+        """
+        return self._data.get("location")
 
     @property
     def game_id(self):
