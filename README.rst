@@ -2,6 +2,8 @@
 boardgamegeek2 - A Python API for boardgamegeek.com
 ===================================================
 
+**WARNING** Please send pull requests against the ``feature/boardgamegeek2`` branch!
+
 +-------------+---------------------------------------+
 | Stable      | |travis-master| |coveralls-master|    |
 +-------------+---------------------------------------+
