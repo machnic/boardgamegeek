@@ -1,4 +1,5 @@
 import datetime
+import time
 
 from _common import *
 from boardgamegeek2 import BGGError, BGGValueError, BGGItemNotFoundError
@@ -6,6 +7,11 @@ from boardgamegeek2.objects.plays import UserPlays, GamePlays, PlaySession, Play
 
 
 progress_called = False
+
+
+def setup_module():
+    # more delays to prevent throttling from the BGG api
+    time.sleep(15)
 
 
 def progress_cb(items, total):
@@ -81,6 +87,8 @@ def test_get_plays_of_user(bgg, null_logger):
                 assert hasattr(player, "new")
                 assert hasattr(player, "win")
                 assert hasattr(player, "rating")
+                assert hasattr(player, "color")
+                assert hasattr(player, "location")
 
     plays._format(null_logger)
 

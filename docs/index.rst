@@ -94,6 +94,7 @@ Contributions to this fork:
 
 * Tom Usher (github:tomusher)
 * Brent Ropp (github:bar350)
+* Michał Machnicki (github:machnic)
 
 Indices and tables
 ==================

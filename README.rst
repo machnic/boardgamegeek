@@ -4,11 +4,12 @@ boardgamegeek2 - A Python API for boardgamegeek.com
 
 **WARNING** Please send pull requests against the ``feature/boardgamegeek2`` branch!
 
-+-------------+---------------------------------------+
-| Stable      | |travis-master| |coveralls-master|    |
-+-------------+---------------------------------------+
-| Development | |travis-develop| |coveralls-develop|  |
-+-------------+---------------------------------------+
++---------+---------------------------------------+
+| Stable  | |travis-master| |coveralls-master|    |
++---------+---------------------------------------+
+| Develop | |travis-develop| |coveralls-develop|  |
++---------+---------------------------------------+
+
 
 Development status:
 
@@ -39,3 +40,4 @@ Documentation is available at http://lcosmin.github.io/boardgamegeek
 
 .. |coveralls-develop| image:: https://coveralls.io/repos/lcosmin/boardgamegeek/badge.png?branch=develop
       :target: https://coveralls.io/r/lcosmin/boardgamegeek?branch=develop
+      

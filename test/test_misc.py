@@ -1,9 +1,14 @@
 import os
 import tempfile
+import time
 
 from _common import *
 from boardgamegeek2 import BGGValueError, CacheBackendNone, CacheBackendSqlite
 
+
+def setup_module():
+    # more delays to prevent throttling from the BGG api
+    time.sleep(15)
 
 #
 # Test caches

@@ -1,9 +1,16 @@
-from boardgamegeek2 import BGGItemNotFoundError, BGGValueError
+import time
+
+from boardgamegeek import BGGItemNotFoundError, BGGValueError
 
 from _common import *
 
 
 progress_called = False
+
+
+def setup_module():
+    # more delays to prevent throttling from the BGG api
+    time.sleep(15)
 
 
 def progress_cb(items, total):

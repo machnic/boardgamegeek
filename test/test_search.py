@@ -1,5 +1,12 @@
+import time
+
 from _common import *
 from boardgamegeek2 import BGGValueError, BGGRestrictSearchResultsTo
+
+
+def setup_module():
+    # more delays to prevent throttling from the BGG api
+    time.sleep(15)
 
 
 def test_search(bgg):

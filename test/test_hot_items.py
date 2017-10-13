@@ -1,7 +1,14 @@
-from boardgamegeek2 import BGGError, BGGValueError
-from boardgamegeek2.objects.hotitems import HotItems, HotItem
+import time
+
+from boardgamegeek import BGGError, BGGValueError
+from boardgamegeek.objects.hotitems import HotItems, HotItem
 
 from _common import *
+
+
+def setup_module():
+    # more delays to prevent throttling from the BGG api
+    time.sleep(15)
 
 
 def test_get_hot_items_invalid_type(bgg):
@@ -17,7 +24,7 @@ def test_get_hot_items_boardgames(bgg, null_logger):
         assert type(item.year) in [int, type(None)]
         # test that all thumbnails have been fixed (http:// added)
         # note: I guess this could fail if the boardgame has no thumbnail...
-        assert item.thumbnail.startswith("http://")
+        assert item.thumbnail.startswith("https://")
         item._format(null_logger)
 
 

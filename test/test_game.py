@@ -1,16 +1,22 @@
 # coding: utf-8
 import datetime
 import sys
+import time
 
 from _common import *
-from boardgamegeek2 import BGGError, BGGItemNotFoundError, BGGValueError
-from boardgamegeek2.objects.games import BoardGameVideo, BoardGameVersion, BoardGameRank
-from boardgamegeek2.objects.games import PollResultPlayerNumber, PollResultPlayerAge, PollResultLanguageDependence
+from boardgamegeek import BGGError, BGGItemNotFoundError, BGGValueError
+from boardgamegeek.objects.games import BoardGameVideo, BoardGameVersion, BoardGameRank
+from boardgamegeek.objects.games import PlayerSuggestion
 
 if sys.version_info >= (3,):
     STR_TYPES_OR_NONE = [str, type(None)]
 else:
     STR_TYPES_OR_NONE = [str, unicode, type(None)]
+
+
+def setup_module():
+    # more delays to prevent throttling from the BGG api
+    time.sleep(15)
 
 
 def test_get_unknown_game_info(bgg):
@@ -37,22 +43,21 @@ def check_game(game):
     assert game.name == TEST_GAME_NAME
     assert game.id == TEST_GAME_ID
     assert game.year == 2007
-    assert game.mechanics == ["Card Drafting", "Hand Management",
-                              "Variable Phase Order", "Variable Player Powers",
-                              "Worker Placement"]
+    assert game.mechanics == ['Card Drafting', 'Hand Management',
+                              'Variable Player Powers', 'Worker Placement']
     assert game.min_players == 1
     assert game.max_players == 5
-    assert game.thumbnail == "http://cf.geekdo-images.com/images/pic259085_t.jpg"
-    assert game.image == "http://cf.geekdo-images.com/images/pic259085.jpg"
+    assert game.thumbnail == "https://cf.geekdo-images.com/images/pic259085_t.jpg"
+    assert game.image == "https://cf.geekdo-images.com/images/pic259085.jpg"
     assert game.playing_time > 100
     assert game.min_age == 12
 
     assert "Economic" in game.categories
     assert "Farming" in game.categories
 
-    assert game.families == ["Agricola", "Animals: Cattle", "Animals: Horses",
-                             "Animals: Pigs", "Animals: Sheep", "Harvest Series",
-                             "Solitaire Games", "Tableau Building"]
+    assert game.families == ['Agricola', 'Animals: Cattle', 'Animals: Horses',
+                             'Animals: Pigs', 'Animals: Sheep', 'Harvest Series',
+                             'Solitaire Games', 'Tableau Building']
     assert game.designers == ["Uwe Rosenberg"]
 
     assert "Lookout Games" in game.publishers
@@ -71,7 +76,8 @@ def check_game(game):
     assert game.rating_num_weights >= 0
     assert type(game.rating_average_weight) == float
 
-    assert type(game.bgg_rank) == int
+    assert type(game.boardgame_rank) == int
+
 
     # check for videos
     assert type(game.videos) == list
@@ -110,29 +116,17 @@ def check_game(game):
         assert type(rank) == BoardGameRank
         assert type(rank.type) in STR_TYPES_OR_NONE
 
-    # check polls
+    # check player suggestions were retrieved
+    assert type(game.player_suggestions) == list
+    for suggestion in game.player_suggestions:
+        assert type(suggestion) == PlayerSuggestion
+        assert type(suggestion.player_count) == str
+        assert type(suggestion.best) == int
+        assert type(suggestion.not_recommended) == int
+        assert type(suggestion.recommended) == int
 
-    assert type(game.player_number_votes) == list
-    for res in game.player_number_votes:
-        assert type(res) == PollResultPlayerNumber
-        assert type(res.player_number) == str
-        assert type(res.votes_for_best) == int
-        assert type(res.votes_for_not_recommended) == int
-        assert type(res.votes_for_recommended) == int
 
-    assert type(game.player_age_votes) == list
-    for res in game.player_age_votes:
-        assert type(res) == PollResultPlayerAge
-        assert type(res.player_age) == str
-        assert type(res.votes) == int
-
-    assert type(game.language_dependence_votes) == list
-    for res in game.language_dependence_votes:
-        assert type(res) == PollResultLanguageDependence
-        assert type(res.level) == int
-        assert type(res.votes) == int
-        assert type(res.description) == str
-
+    # make sure no exception gets thrown
     repr(game)
 
 
@@ -188,9 +182,9 @@ def test_get_game_id_by_name(bgg):
     best_rank = 1000000000
     best_id = None
     for g in all_eclipse_games:
-        if g.bgg_rank is not None and g.bgg_rank < best_rank:
+        if g.boardgame_rank is not None and g.boardgame_rank < best_rank:
             best_id = g.id
-            best_rank = g.bgg_rank
+            best_rank = g.boardgame_rank
     assert game_id == best_id
 
 

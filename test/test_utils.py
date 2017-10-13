@@ -161,7 +161,7 @@ def test_rate_limiting_for_requests():
         bgg.game(game_id=g)
     end_time = time.time()
 
-    assert 7 < end_time - start_time < 11       # 3 games should take ~9 seconds
+    assert 7 < end_time - start_time < 17       # 3 games should take ~9 seconds
 
     # repeat requests, should be served from cache
     for g in test_set_1:
