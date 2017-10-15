@@ -1,7 +1,7 @@
 import datetime
 import time
 
-from boardgamegeek2 import BGGValueError, BGGItemNotFoundError
+from boardgamegeek import BGGValueError, BGGItemNotFoundError
 
 from _common import *
 

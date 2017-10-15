@@ -1,11 +1,11 @@
 # coding: utf-8
 """
-:mod:`boardgamegeek2.objects.collection` - classes for storing collection data
-=============================================================================
+:mod:`boardgamegeek.collection` - Collection information
+========================================================
 
-.. module:: boardgamegeek2.objects.collection
+.. module:: boardgamegeek.collection
    :platform: Unix, Windows
-   :synopsis: classes for storing collection data
+   :synopsis: classes for storing collection information
 
 .. moduleauthor:: Cosmin Luță <q4break@gmail.com>
 
@@ -24,7 +24,7 @@ class Collection(DictObject):
     A dictionary-like object represeting a ``Collection``
 
     :param dict data: a dictionary containing the collection data
-    :raises: :py:class:`boardgamegeek2.exceptions.BoardGameGeekError` in case of invalid data
+    :raises: :py:class:`boardgamegeek.exceptions.BoardGameGeekError` in case of invalid data
     """
     def __init__(self, data):
         kw = copy(data)
@@ -41,7 +41,7 @@ class Collection(DictObject):
         log.info("owner    : {}".format(self.owner))
         log.info("size     : {} items".format(len(self)))
 
-        log.info("collection items")
+        log.info("items")
 
         for i in self:
             i._format(log)
@@ -52,7 +52,7 @@ class Collection(DictObject):
         Add a game to the ``Collection``
 
         :param dict game: game data
-        :raises: :py:class:`boardgamegeek2.exceptions.BoardGameGeekError` in case of invalid data
+        :raises: :py:class:`boardgamegeek.exceptions.BoardGameGeekError` in case of invalid data
         """
         try:
             # Collections can have duplicate elements (different collection ids), so don't add the same thing
@@ -66,8 +66,11 @@ class Collection(DictObject):
     def __getitem__(self, item):
         return self._items.__getitem__(item)
 
+    def __str__(self):
+        return "{}'s collection, {} items".format(self.owner, len(self))
+
     def __repr__(self):
-        return "Collection (owner: {}, items: {})".format(self.owner, len(self))
+        return "Collection: (owner: {}, items: {})".format(self.owner, len(self))
 
     def __len__(self):
         return len(self._items)
@@ -88,7 +91,7 @@ class Collection(DictObject):
         Returns the items in the collection
 
         :returns: the items in the collection
-        :rtype: list of :py:class:`boardgamegeek2.objects.games.CollectionBoardGame`
+        :rtype: list of :py:class:`boardgamegeek.games.CollectionBoardGame`
         """
         return self._items
 

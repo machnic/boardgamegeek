@@ -1,9 +1,9 @@
 # coding: utf-8
 """
-:mod:`boardgamegeek2.objects.things` - Base classes for "Things"
-===============================================================
+:mod:`boardgamegeek.things` - Generic objects
+=============================================
 
-.. module:: boardgamegeek2.objects.things
+.. module:: boardgamegeek.things
    :platform: Unix, Windows
    :synopsis: Generic objects
 

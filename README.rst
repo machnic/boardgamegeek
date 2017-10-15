@@ -1,8 +1,6 @@
-===================================================
-boardgamegeek2 - A Python API for boardgamegeek.com
-===================================================
-
-**WARNING** Please send pull requests against the ``feature/boardgamegeek2`` branch!
+==================================================
+boardgamegeek - A Python API for boardgamegeek.com
+==================================================
 
 +---------+---------------------------------------+
 | Stable  | |travis-master| |coveralls-master|    |
@@ -13,12 +11,10 @@ boardgamegeek2 - A Python API for boardgamegeek.com
 
 Development status:
 
-``boardgamegeek2`` is a Python library which makes it easy to access data from BoardGameGeek_ using their official XML API.
+``boardgamegeek`` is a Python library which makes it easy to access data from BoardGameGeek_ using their official XML
+API.
 
 It's an almost completely rewritten fork of libBGG_.
-
-
-**WARNING**: ``boardgamegeek2`` is not backwards compatible with the previous version, ``boardgamegeek``. See the changelog for details.
 
 
 Documentation

@@ -1,7 +1,7 @@
 import time
 
 from _common import *
-from boardgamegeek2 import BGGValueError, BGGRestrictSearchResultsTo
+from boardgamegeek import BGGValueError, BGGRestrictSearchResultsTo
 
 
 def setup_module():

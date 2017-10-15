@@ -1,9 +1,9 @@
 # coding: utf-8
 """
-:mod:`boardgamegeek2.exceptions` - Exceptions
+:mod:`boardgamegeek.exceptions` - Exceptions
 ============================================
 
-.. module:: boardgamegeek2.exceptions
+.. module:: boardgamegeek.exceptions
    :platform: Unix, Windows
    :synopsis: exceptions used in the package
 
@@ -17,7 +17,6 @@ class BGGValueError(ValueError):
 
 
 class BGGError(Exception):
-    """ Base class for errors """
     pass
 
 
@@ -27,7 +26,7 @@ class BGGItemNotFoundError(BGGError):
 
 
 class BGGApiTimeoutError(BGGError):
-    """ Network timeout issues """
+    """ Network timeout conditions """
     pass
 
 
@@ -40,3 +39,8 @@ class BGGApiRetryError(BGGApiError):
     """ The request to the BGG XML2 API should be retried """
     pass
 
+
+BoardGameGeekError = BGGError
+BoardGameGeekTimeoutError = BGGApiTimeoutError
+BoardGameGeekAPIError = BGGApiError
+BGGApiRetryError = BGGApiRetryError

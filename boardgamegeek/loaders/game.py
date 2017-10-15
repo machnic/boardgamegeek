@@ -5,91 +5,7 @@ from ..exceptions import BGGApiError
 from ..utils import xml_subelement_attr_list, xml_subelement_text, xml_subelement_attr, get_board_game_version_from_element
 
 
-log = logging.getLogger("boardgamegeek2.loaders.game")
-
-
-def parse_language_dependence_poll(poll, data):
-    """
-    Parses a xml <poll name="language_dependece" /> node and store information in data
-
-    :param poll: xml 'poll' node
-    :param data: dictionary containing the data
-    :return:
-    """
-    data["language_dependence"] = {}
-    # TODO: do something with the total_votes too
-    data["language_dependence"]["total_votes"] = poll.attrib.get("totalvotes", 0)
-    data["language_dependence"]["results"] = {}
-
-    results = poll.find("results")
-    if not results:
-        return
-
-    d = {}
-
-    for res in results.findall("result"):
-        level = int(res.attrib["level"])
-        numvotes = int(res.attrib.get("numvotes", 0))
-        d[level] = {"description": res.attrib["value"], "num_votes": numvotes}
-
-    data["language_dependence"]["results"] = d
-
-
-def parse_suggested_numplayers_poll(poll, data):
-    """
-    Parses a xml <poll name="suggested_numplayers" /> node and store information in data
-
-    :param poll: xml 'poll' node
-    :param data: dictionary containing the data
-    :return:
-    """
-    data["suggested_numplayers"] = {}
-    # TODO: do something with the total_votes too
-    data["suggested_numplayers"]["total_votes"] = poll.attrib.get("totalvotes", 0)
-    data["suggested_numplayers"]["results"] = {}
-
-    for result in poll.findall("results"):
-        player_count = result.attrib.get("numplayers", "1")
-
-        d = {"best": -1, "recommended": -1, "not_recommended": -1}
-
-        for res in result.findall("result"):
-
-            value = res.attrib.get("value")
-
-            if value == "Best":
-                d["best"] = int(res.attrib.get("numvotes", 0))
-            elif value == "Recommended":
-                d["recommended"] = int(res.attrib.get("numvotes", 0))
-            elif value == "Not Recommended":
-                d["not_recommended"] = int(res.attrib.get("numvotes", 0))
-            else:
-                log.warn('unexpected <result value="{}">'.format(value))
-
-        data["suggested_numplayers"]["results"][player_count] = d
-
-
-def parse_suggested_playerage_poll(poll, data):
-    """
-    Parses a xml <poll name="suggested_playerage" /> node and store information in data
-
-    :param poll: xml 'poll' node
-    :param data: dictionary containing the data
-    :return:
-    """
-
-    data["suggested_playerage"] = {}
-    data["suggested_playerage"]["total_votes"] = poll.attrib.get("totalvotes", 0)
-    data["suggested_playerage"]["results"] = {}
-
-    results = poll.find("results")
-
-    if not results:
-        return
-
-    for res in results.findall("result"):
-        player_age = res.attrib.get("value", "?")
-        data["suggested_playerage"]["results"][player_age] = int(res.attrib.get("numvotes", 0))
+log = logging.getLogger("boardgamegeek.loaders.game")
 
 
 def create_game_from_xml(xml_root, game_id, html_parser):
@@ -136,7 +52,7 @@ def create_game_from_xml(xml_root, game_id, html_parser):
         data[i] = xml_subelement_attr(xml_root, i, convert=int, quiet=True)
 
     # Look for the videos
-    # TODO: The BGG API doesn't take the page=NNN parameter into account for videos; when it will, paginate them too
+    # TODO: The BGG API doesn't take the page=NNN parameter into account for videos; when it does, paginate them too
     videos = xml_root.find("videos")
     if videos is not None:
         vid_list = []
@@ -198,21 +114,38 @@ def create_game_from_xml(xml_root, game_id, html_parser):
                 rank_value = None
             sd["ranks"].append({"id": rank.attrib["id"],
                                 "name": rank.attrib["name"],
-                                "type": rank.attrib["type"],
                                 "friendlyname": rank.attrib.get("friendlyname"),
                                 "value": rank_value})
 
         data["stats"] = sd
 
-        # Parse polls
-        for poll in xml_root.findall("poll"):
-            poll_name = poll.attrib.get("name")
-            if poll_name == "suggested_numplayers":
-                parse_suggested_numplayers_poll(poll, data)
-            elif poll_name == "suggested_playerage":
-                parse_suggested_playerage_poll(poll, data)
-            elif poll_name == "language_dependence":
-                parse_language_dependence_poll(poll, data)
+        polls = xml_root.findall("poll")
+        data["suggested_players"] = {}
+        for poll in polls:
+            if poll.attrib.get("name") == "suggested_numplayers":
+                results = poll.findall('results')
+                data["suggested_players"]['total_votes'] = poll.attrib.get('totalvotes')
+                data["suggested_players"]['results'] = {}
+                for result in results:
+                    player_count = result.attrib.get("numplayers")
+                    if result.find("result[@value='Best']") is not None:
+                        data["suggested_players"]['results'][player_count] = {
+                            'best_rating': result.find("result[@value='Best']")
+                            .attrib.get("numvotes"),
+                            'recommended_rating': result
+                            .find("result[@value='Recommended']").attrib.get("numvotes"),
+                            'not_recommeded_rating': result
+                            .find("result[@value='Not Recommended']")
+                            .attrib.get("numvotes"),
+                        }
+                    else:
+                        ''' if there is only one poll player count and no votes recorded
+                            by default it is the the best player count '''
+                        data["suggested_players"]['results'][player_count] = {
+                            'best_rating': '1',
+                            'recommended_rating': '0',
+                            'not_recommeded_rating': '0',
+                        }
 
     return BoardGame(data)
 

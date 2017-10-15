@@ -1,11 +1,11 @@
 # coding: utf-8
 """
-:mod:`boardgamegeek2.objects.guild` - Classes for storing guild data
-===================================================================
+:mod:`boardgamegeek.guild` - Guild information
+==============================================
 
-.. module:: boardgamegeek2.objects.guild
+.. module:: boardgamegeek.guild
    :platform: Unix, Windows
-   :synopsis: classes for storing guild data
+   :synopsis: classes for storing guild information
 
 .. moduleauthor:: Cosmin Luță <q4break@gmail.com>
 
@@ -80,7 +80,7 @@ class Guild(Thing):
 
         if self._data.get("addr2"):
             if len(address):
-                address += " "
+                address += " "  # delimit the two address fields by a space
             address += self._data.get("addr2")
 
         return address if len(address) else None

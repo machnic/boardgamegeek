@@ -1,9 +1,9 @@
 # coding: utf-8
 """
-:mod:`boardgamegeek2.utils` - Generic helper functions
+:mod:`boardgamegeek.utils` - Generic helper functions
 =====================================================
 
-.. module:: boardgamegeek2.utils
+.. module:: boardgamegeek.utils
    :platform: Unix, Windows
    :synopsis: generic helper functions
 
@@ -28,7 +28,7 @@ except:
 
 from .exceptions import BGGApiError, BGGApiRetryError, BGGError, BGGApiTimeoutError
 
-log = logging.getLogger("boardgamegeek2.utils")
+log = logging.getLogger("boardgamegeek.utils")
 
 DEFAULT_REQUESTS_PER_MINUTE = 30
 
@@ -294,8 +294,7 @@ def request_and_parse_xml(requests_session, url, params=None, timeout=15, retrie
     :param timeout: number of seconds after which the request times out
     :param retries: number of retries to perform in case of timeout
     :param retry_delay: the amount of seconds to sleep when retrying an API call that returned 202
-    :return: ``ElementTree`` corresponding to the XML
-    :rtype: :py:func:`xml.etree.ElementTree`
+    :return: :py:func:`xml.etree.ElementTree` corresponding to the XML
     :raises: :py:class:`BGGApiRetryError` if this request should be retried after a short delay
     :raises: :py:class:`BGGApiError` if the response was invalid or couldn't be parsed
     :raises: :py:class:`BGGApiTimeoutError` if there was a timeout

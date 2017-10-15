@@ -1,27 +1,27 @@
 # coding: utf8
 """
+:mod:`boardgamegeek.search` - Search results
+============================================
 
-:mod:`boardgamegeek2.objects.search` - Classes for storing search results
-========================================================================
-
-.. module:: boardgamegeek2.objects.search
+.. module:: boardgamegeek.search
    :platform: Unix, Windows
-   :synopsis: classes for storing search results
+   :synopsis: classes for handling search results
 
 .. moduleauthor:: Cosmin Luță <q4break@gmail.com>
 
 """
 from __future__ import unicode_literals
 
-from boardgamegeek2.objects.things import Thing
-from boardgamegeek2.exceptions import BGGError
-from boardgamegeek2.utils import fix_unsigned_negative
+from boardgamegeek.objects.things import Thing
+from boardgamegeek.exceptions import BGGError
+from boardgamegeek.utils import fix_unsigned_negative
 
 
 class SearchResult(Thing):
     """
     Result of a search
     """
+
     def __init__(self, data):
         self._yearpublished = None
         if "yearpublished" in data:
@@ -31,9 +31,6 @@ class SearchResult(Thing):
             self._yearpublished = fix_unsigned_negative(data["yearpublished"])
 
         super(SearchResult, self).__init__(data)
-
-    def __repr__(self):
-        return "SearchResult (result id: {})".format(self.id)
 
     def _format(self, log):
         log.info("searched item id   : {}".format(self.id))

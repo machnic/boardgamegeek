@@ -3,7 +3,7 @@ import tempfile
 import time
 
 from _common import *
-from boardgamegeek2 import BGGValueError, CacheBackendNone, CacheBackendSqlite
+from boardgamegeek import BGGValueError, CacheBackendNone, CacheBackendSqlite
 
 
 def setup_module():

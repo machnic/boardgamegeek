@@ -1,11 +1,11 @@
 # coding: utf-8
 """
-:mod:`boardgamegeek2.objects.games` - Classes for storing game data
-==================================================================
+:mod:`boardgamegeek.games` - Games information
+==============================================
 
-.. module:: boardgamegeek2.objects.games
+.. module:: boardgamegeek.objects.games
    :platform: Unix, Windows
-   :synopsis: classes for storing games data
+   :synopsis: classes for storing games information
 
 .. moduleauthor:: Cosmin Luță <q4break@gmail.com>
 
@@ -21,147 +21,41 @@ from ..utils import fix_url, DictObject, fix_unsigned_negative
 
 
 class BoardGameRank(Thing):
-    """
-    Object containing information about the rank of a board game
-    """
     @property
     def type(self):
-        """
-        :return: type of the rank (e.g. "subtype", "family", etc.)
-        :rtype: str
-        """
         return self._data.get("type")
 
     @property
     def friendly_name(self):
-        """
-        :return: friendly name of the rank
-        :rtype: str
-        """
         return self._data.get("friendlyname")
 
     @property
     def value(self):
-        """
-        :return: value of the rank
-        :rtype: int
-        """
         return self._data.get("value")
 
     @property
     def rating_bayes_average(self):
-        """
-        :return: bayes average
-        :rtype: float
-        :return: ``None`` if n/a
-        """
         return self._data.get("bayesaverage")
 
-    def __repr__(self):
-        return "BoardGameRank(id: {}, name: {}, value: {})".format(self.id, self.friendly_name, self.value)
 
-
-class PollResultLanguageDependence(DictObject):
+class PlayerSuggestion(DictObject):
     """
-    Stores poll results for the game's language dependence
+    Player Suggestion
     """
     def __init__(self, data):
-        super(PollResultLanguageDependence, self).__init__(data)
+        super(PlayerSuggestion, self).__init__(data)
 
     @property
-    def level(self):
+    def numeric_player_count(self):
         """
+        Convert player count to a an int
+        If player count contains a + symbol
+        then add one to the player count
         """
-        return self._level
-
-    @property
-    def description(self):
-        """
-
-        :return: text description for this language dependence level
-        """
-        return self._description
-
-    @property
-    def votes(self):
-        """
-        :return: the number of votes in the "Best" category, for this number of players
-        :rtype: int
-        """
-        return self._votes
-
-    def _format(self, log):
-        log.info("> {} (level {}): votes: {}".format(self._description,
-                                                     self._level,
-                                                     self._votes))
-
-
-class PollResultPlayerNumber(DictObject):
-    """
-    Stores poll results for the number of players
-    """
-    def __init__(self, data):
-        super(PollResultPlayerNumber, self).__init__(data)
-
-    @property
-    def player_number(self):
-        """
-        """
-        return self._count
-
-    @property
-    def votes_for_best(self):
-        """
-        :return: the number of votes in the "Best" category, for this number of players
-        :rtype: int
-        """
-        return self._best
-
-    @property
-    def votes_for_recommended(self):
-        """
-        :return: the number of votes in the "Recommended" category, for this number of players
-        :rtype: int
-        """
-        return self._recommended
-
-    @property
-    def votes_for_not_recommended(self):
-        """
-        :return: the number of votes in the "Not Recommended" category, for this number of players
-        """
-        return self._not_recommended
-
-    def _format(self, log):
-        log.info("> {} players: votes: {} for best, {} for recommended, {} for not recommended".format(self._count,
-                                                                                                       self._best,
-                                                                                                       self._recommended,
-                                                                                                       self._not_recommended))
-
-
-class PollResultPlayerAge(DictObject):
-    """
-    Stores poll results for player age
-    """
-    def __init__(self, data):
-        super(PollResultPlayerAge, self).__init__(data)
-
-    @property
-    def player_age(self):
-        """
-        """
-        return self._age
-
-    @property
-    def votes(self):
-        """
-        :return: the number of votes for this age
-        :rtype: int
-        """
-        return self._votes
-
-    def _format(self, log):
-        log.info("> {} years: votes: {}".format(self._age, self._votes))
+        if '+' in self.player_count:
+            return int(self.player_count[:-1]) + 1
+        else:
+            return int(self.player_count)
 
 
 class BoardGameStats(DictObject):
@@ -183,25 +77,17 @@ class BoardGameStats(DictObject):
 
     @property
     def bgg_rank(self):
-        """
-        :return: BGG rank
-        :rtype: int
-        """
         return self._bgg_rank
 
     @property
     def ranks(self):
-        """
-        :return: list of ranks for this game
-        :rtype: list of :py:class:`boardgamegeek2.objects.games.BoardGameRank`
-        """
         return self._ranks
 
     @property
     def users_rated(self):
         """
         :return: how many users rated the game
-        :rtype: int
+        :rtype: integer
         :return: ``None`` if n/a
         """
         return self._data.get("usersrated")
@@ -236,7 +122,7 @@ class BoardGameStats(DictObject):
     @property
     def rating_median(self):
         """
-        :return: median value of all ratings
+        :return:
         :rtype: float
         :return: ``None`` if n/a
         """
@@ -246,7 +132,7 @@ class BoardGameStats(DictObject):
     def users_owned(self):
         """
         :return: number of users owning this game
-        :rtype: int
+        :rtype: integer
         :return: ``None`` if n/a
         """
         return self._data.get("owned")
@@ -255,7 +141,7 @@ class BoardGameStats(DictObject):
     def users_trading(self):
         """
         :return: number of users trading this game
-        :rtype: int
+        :rtype: integer
         :return: ``None`` if n/a
         """
         return self._data.get("trading")
@@ -264,7 +150,7 @@ class BoardGameStats(DictObject):
     def users_wanting(self):
         """
         :return: number of users wanting this game
-        :rtype: int
+        :rtype: integer
         :return: ``None`` if n/a
         """
         return self._data.get("wanting")
@@ -273,7 +159,7 @@ class BoardGameStats(DictObject):
     def users_wishing(self):
         """
         :return: number of users wishing for this game
-        :rtype: int
+        :rtype: integer
         :return: ``None`` if n/a
         """
         return self._data.get("wishing")
@@ -282,7 +168,7 @@ class BoardGameStats(DictObject):
     def users_commented(self):
         """
         :return: number of user comments
-        :rtype: int
+        :rtype: integer
         :return: ``None`` if n/a
         """
         return self._data.get("numcomments")
@@ -291,7 +177,7 @@ class BoardGameStats(DictObject):
     def rating_num_weights(self):
         """
         :return:
-        :rtype: int
+        :rtype: integer
         :return: ``None`` if n/a
         """
         return self._data.get("numweights")
@@ -307,39 +193,21 @@ class BoardGameStats(DictObject):
 
 
 class BoardGameComment(DictObject):
-    """
-    Object containing a comment on BGG
-    """
+
     @property
     def commenter(self):
-        """
-        :return: name of the user making the comment
-        :rtype: str
-        """
         return self._data["username"]
 
     @property
     def comment(self):
-        """
-        :return: the comment
-        :rtype: str
-        """
         return self._data["comment"]
 
     @property
     def rating(self):
-        """
-        :return: user's rating
-        :rtype: str
-        :return: "n/a" if user didn't rate the game with this comment
-        """
         return self._data["rating"]
 
     def _format(self, log):
         log.info(u"comment by {} (rating: {}): {}".format(self.commenter, self.rating, self.comment))
-
-    def __repr__(self):
-        return "BoardGameComment(user: {}): {}".format(self.commenter, self.comment)
 
 
 class BoardGameVideo(Thing):
@@ -361,9 +229,6 @@ class BoardGameVideo(Thing):
 
         super(BoardGameVideo, self).__init__(kw)
 
-    def __repr__(self):
-        return "BoardGameVideo (link: {})".format(self.link)
-
     def _format(self, log):
         log.info("video id          : {}".format(self.id))
         log.info("video title       : {}".format(self.name))
@@ -378,8 +243,8 @@ class BoardGameVideo(Thing):
     def category(self):
         """
         :return: the category of this video
-        :rtype: str
         :return: ``None`` if n/a
+        :rtype: string
         """
         return self._data.get("category")
 
@@ -387,8 +252,8 @@ class BoardGameVideo(Thing):
     def link(self):
         """
         :return: the link to this video
-        :rtype: str
         :return: ``None`` if n/a
+        :rtype: string
         """
         return self._data.get("link")
 
@@ -396,8 +261,8 @@ class BoardGameVideo(Thing):
     def language(self):
         """
         :return: the language of this video
-        :rtype: str
         :return: ``None`` if n/a
+        :rtype: string
         """
         return self._data.get("language")
 
@@ -405,8 +270,8 @@ class BoardGameVideo(Thing):
     def uploader(self):
         """
         :return: the name of the user which uploaded this video
-        :rtype: str
         :return: ``None`` if n/a
+        :rtype: string
         """
         return self._data.get("uploader")
 
@@ -414,7 +279,7 @@ class BoardGameVideo(Thing):
     def uploader_id(self):
         """
         :return: id of the uploader
-        :rtype: int
+        :rtype: integer
         :return: ``None`` if n/a
         """
         return self._data.get("uploader_id")
@@ -459,8 +324,9 @@ class BoardGameVersion(Thing):
     @property
     def artist(self):
         """
+
         :return: artist of this version
-        :rtype: str
+        :rtype: string
         :return: ``None`` if n/a
         """
         return self._data.get("artist")
@@ -487,7 +353,7 @@ class BoardGameVersion(Thing):
     def language(self):
         """
         :return: language of this version
-        :rtype: str
+        :rtype: string
         :return: ``None`` if n/a
         """
         return self._data.get("language")
@@ -496,7 +362,7 @@ class BoardGameVersion(Thing):
     def name(self):
         """
         :return: name of this version
-        :rtype: str
+        :rtype: string
         :return: ``None`` if n/a
         """
         return self._data.get("name")
@@ -506,7 +372,7 @@ class BoardGameVersion(Thing):
         """
 
         :return: product code of this version
-        :rtype: str
+        :rtype: string
         :return: ``None`` if n/a
         """
         return self._data.get("product_code")
@@ -516,7 +382,7 @@ class BoardGameVersion(Thing):
         """
 
         :return: publisher of this version
-        :rtype: str
+        :rtype: string
         :return: ``None`` if n/a
         """
         return self._data.get("publisher")
@@ -543,7 +409,7 @@ class BoardGameVersion(Thing):
     def year(self):
         """
         :return: publishing year
-        :rtype: int
+        :rtype: integer
         :return: ``None`` if n/a
         """
         return self._data.get("yearpublished")
@@ -565,7 +431,7 @@ class BaseGame(Thing):
 
         try:
             self._year_published = fix_unsigned_negative(data["yearpublished"])
-        except KeyError:
+        except:
             self._year_published = None
 
         for version in data.get("versions", []):
@@ -600,7 +466,7 @@ class BaseGame(Thing):
     def year(self):
         """
         :return: publishing year
-        :rtype: int
+        :rtype: integer
         :return: ``None`` if n/a
         """
         return self._year_published
@@ -609,7 +475,7 @@ class BaseGame(Thing):
     def min_players(self):
         """
         :return: minimum number of players
-        :rtype: int
+        :rtype: integer
         :return: ``None`` if n/a
         """
         return self._data.get("minplayers")
@@ -618,7 +484,7 @@ class BaseGame(Thing):
     def max_players(self):
         """
         :return: maximum number of players
-        :rtype: int
+        :rtype: integer
         :return: ``None`` if n/a
         """
         return self._data.get("maxplayers")
@@ -626,18 +492,18 @@ class BaseGame(Thing):
     @property
     def min_playing_time(self):
         """
-        :return: minimum playing time
-        :return: ``None`` if n/a
-        :rtype: int
+        Minimum playing time
+        :return: ``None if n/a
+        :rtype: integer
         """
         return self._data.get("minplaytime")
 
     @property
     def max_playing_time(self):
         """
-        :return: maximum playing time
-        :return: ``None`` if n/a
-        :rtype: int
+        Maximum playing time
+        :return: ``None if n/a
+        :rtype: integer
         """
         return self._data.get("maxplaytime")
 
@@ -645,16 +511,18 @@ class BaseGame(Thing):
     def playing_time(self):
         """
         :return: playing time
-        :rtype: int
+        :rtype: integer
         :return: ``None`` if n/a
         """
         return self._data.get("playingtime")
+
+    # TODO: create properties to access the stats
 
     @property
     def users_rated(self):
         """
         :return: how many users rated the game
-        :rtype: int
+        :rtype: integer
         :return: ``None`` if n/a
         """
         return self._stats.users_rated
@@ -697,9 +565,11 @@ class BaseGame(Thing):
 
     @property
     def ranks(self):
+        #TODO: document this change. It's not returning list of dicts anymore, but BoardGameRank objects
         """
         :return: rankings of this game
-        :rtype: list of :py:class:`boardgamegeek2.objects.games.BoardGameRank`
+        :rtype: list of dicts, keys: ``friendlyname`` (the friendly name of the rank, e.g. "Board Game Rank"), ``name``
+                (name of the rank, e.g "boardgame"), ``value`` (the rank)
         :return: ``None`` if n/a
         """
         return self._stats.ranks
@@ -711,6 +581,11 @@ class BaseGame(Thing):
         """
         # TODO: document this
         return self._stats.bgg_rank
+
+    @property
+    def boardgame_rank(self):
+        # TODO: mark as deprecated (use bgg_rank instead)
+        return self.bgg_rank
 
 
 class CollectionBoardGame(BaseGame):
@@ -765,10 +640,6 @@ class CollectionBoardGame(BaseGame):
 
     @property
     def numplays(self):
-        """
-        :return: number of plays
-        :rtype: int
-        """
         return self._data.get("numplays", 0)
 
     @property
@@ -846,15 +717,8 @@ class CollectionBoardGame(BaseGame):
 
     @property
     def wishlist_priority(self):
-        """
-        :return: the priority in the whishlist for this game
-        :rtype: int or None
-        """
-        try:
-            return int(self._data.get("wishlistpriority"))
-        except TypeError:
-            # This occurs when the priority is not set
-            return None
+        # TODO: convert to int (it's str)
+        return self._data.get("wishlistpriority")
 
 
 class BoardGame(BaseGame):
@@ -897,29 +761,16 @@ class BoardGame(BaseGame):
         for comment in data.get("comments", []):
             self.add_comment(comment)
 
-        self._poll_results_numplayers = []
-        if "suggested_numplayers" in data:
-            for count, result in data["suggested_numplayers"]["results"].items():
+        self._player_suggestion = []
+        if "suggested_players" in data:
+            for count, result in data['suggested_players']['results'].items():
                 suggestion_data = {
-                    "_count": count,
-                    "_best": result["best"],
-                    "_recommended": result["recommended"],
-                    "_not_recommended": result["not_recommended"],
+                    'player_count': count,
+                    'best': int(result['best_rating']),
+                    'recommended': int(result['recommended_rating']),
+                    'not_recommended': int(result['not_recommeded_rating']),
                 }
-                self._poll_results_numplayers.append(PollResultPlayerNumber(suggestion_data))
-
-        self._poll_results_playerage = []
-        if "suggested_playerage" in data:
-            for age, num_votes in data["suggested_playerage"]["results"].items():
-                self._poll_results_playerage.append(PollResultPlayerAge({"_age": age,
-                                                                         "_votes": num_votes}))
-
-        self._poll_results_langdeps = []
-        if "language_dependence" in data:
-            for level, d in data["language_dependence"]["results"].items():
-                self._poll_results_langdeps.append(PollResultLanguageDependence({"_level": level,
-                                                                                 "_description": d["description"],
-                                                                                 "_votes": d["num_votes"]}))
+                self._player_suggestion.append(PlayerSuggestion(suggestion_data))
 
         super(BoardGame, self).__init__(data)
 
@@ -934,7 +785,7 @@ class BoardGame(BaseGame):
         Add a game expanded by this one
 
         :param dict data: expanded game's data
-        :raises: :py:exc:`boardgamegeek2.exceptions.BoardGameGeekError` if data is invalid
+        :raises: :py:exc:`boardgamegeek.exceptions.BoardGameGeekError` if data is invalid
         """
         try:
             if data["id"] not in self._expands_set:
@@ -949,7 +800,7 @@ class BoardGame(BaseGame):
         Add an expansion of this game
 
         :param dict data: expansion data
-        :raises: :py:exc:`boardgamegeek2.exceptions.BoardGameGeekError` if data is invalid
+        :raises: :py:exc:`boardgamegeek.exceptions.BoardGameGeekError` if data is invalid
         """
         try:
             if data["id"] not in self._expansions_set:
@@ -973,6 +824,7 @@ class BoardGame(BaseGame):
         log.info("minimum age       : {}".format(self.min_age))
         log.info("thumbnail         : {}".format(self.thumbnail))
         log.info("image             : {}".format(self.image))
+
         log.info("is expansion      : {}".format(self.expansion))
 
         if self.expansions:
@@ -1032,23 +884,13 @@ class BoardGame(BaseGame):
                 v._format(log)
                 log.info("--------")
 
-        if self.player_number_votes:
-            log.info("poll: player number results")
-            for v in self.player_number_votes:
-                v._format(log)
-            log.info("--------")
-
-        if self.player_age_votes:
-            log.info("poll: player age results")
-            for v in self.player_age_votes:
-                v._format(log)
-            log.info("--------")
-
-        if self.language_dependence_votes:
-            log.info("poll: language dependence results")
-            for v in self.language_dependence_votes:
-                v._format(log)
-            log.info("--------")
+        if self.player_suggestions:
+            log.info("Player Suggestions")
+            for v in self.player_suggestions:
+                log.info("- {} - Best: {}, Recommended: {}, Not Recommended: {}"
+                         .format(v.player_count, v.best,
+                                 v.recommended, v.not_recommended))
+                log.info("--------")
 
         log.info("users rated game  : {}".format(self.users_rated))
         log.info("users avg rating  : {}".format(self.rating_average))
@@ -1098,10 +940,6 @@ class BoardGame(BaseGame):
 
     @property
     def comments(self):
-        """
-        :return: comments for this game
-        :rtype: list of :py:class:`boardgamegeek2.objects.games.BoardGameComment`
-        """
         return self._comments
 
     @property
@@ -1116,7 +954,7 @@ class BoardGame(BaseGame):
     def expansions(self):
         """
         :return: expansions
-        :rtype: list of :py:class:`boardgamegeek2.objects.things.Thing`
+        :rtype: list of :py:class:`boardgamegeek.things.Thing`
         """
         return self._expansions
 
@@ -1124,7 +962,7 @@ class BoardGame(BaseGame):
     def expands(self):
         """
         :return: games this item expands
-        :rtype: list of :py:class:`boardgamegeek2.objects.things.Thing`
+        :rtype: list of :py:class:`boardgamegeek.things.Thing`
         """
         return self._expands
 
@@ -1172,7 +1010,7 @@ class BoardGame(BaseGame):
     def min_age(self):
         """
         :return: minimum recommended age
-        :rtype: int
+        :rtype: integer
         :return: ``None`` if n/a
         """
         return self._data.get("minage")
@@ -1181,7 +1019,7 @@ class BoardGame(BaseGame):
     def users_owned(self):
         """
         :return: number of users owning this game
-        :rtype: int
+        :rtype: integer
         :return: ``None`` if n/a
         """
         return self._stats.users_owned
@@ -1190,7 +1028,7 @@ class BoardGame(BaseGame):
     def users_trading(self):
         """
         :return: number of users trading this game
-        :rtype: int
+        :rtype: integer
         :return: ``None`` if n/a
         """
         return self._stats.users_trading
@@ -1199,7 +1037,7 @@ class BoardGame(BaseGame):
     def users_wanting(self):
         """
         :return: number of users wanting this game
-        :rtype: int
+        :rtype: integer
         :return: ``None`` if n/a
         """
         return self._data.get("wanting")
@@ -1208,7 +1046,7 @@ class BoardGame(BaseGame):
     def users_wishing(self):
         """
         :return: number of users wishing for this game
-        :rtype: int
+        :rtype: integer
         :return: ``None`` if n/a
         """
         return self._data.get("wishing")
@@ -1217,7 +1055,7 @@ class BoardGame(BaseGame):
     def users_commented(self):
         """
         :return: number of user comments
-        :rtype: int
+        :rtype: integer
         :return: ``None`` if n/a
         """
         return self._data.get("numcomments")
@@ -1226,7 +1064,7 @@ class BoardGame(BaseGame):
     def rating_num_weights(self):
         """
         :return:
-        :rtype: int
+        :rtype: integer
         :return: ``None`` if n/a
         """
         return self._stats.rating_num_weights
@@ -1244,7 +1082,7 @@ class BoardGame(BaseGame):
     def videos(self):
         """
         :return: videos of this game
-        :rtype: list of :py:class:`boardgamegeek2.objects.games.BoardGameVideo`
+        :rtype: list of :py:class:`boardgamegeek.game.BoardGameVideo`
         """
         return self._videos
 
@@ -1252,30 +1090,14 @@ class BoardGame(BaseGame):
     def versions(self):
         """
         :return: versions of this game
-        :rtype: list of :py:class:`boardgamegeek2.objects.games.BoardGameVersion`
+        :rtype: list of :py:class:`boardgamegeek.game.BoardGameVersion`
         """
         return self._versions
 
     @property
-    def player_number_votes(self):
+    def player_suggestions(self):
         """
-        :return list of player number votes
-        :rtype: list of :py:class:`boardgamegeek2.games.PollResultPlayerNumber`
+        :return player suggestion list with votes
+        :rtype: list of dicts
         """
-        return self._poll_results_numplayers
-
-    @property
-    def player_age_votes(self):
-        """
-        :return list of player age suggestions, with votes
-        :rtype: list of :py:class:`boardgamegeek2.games.PollResultPlayerAge`
-        """
-        return self._poll_results_playerage
-
-    @property
-    def language_dependence_votes(self):
-        """
-        :return list of language dependence votes
-        :rtype: list of :py:class:`boardgamegeek2.games.PollResultPlayerAge`
-        """
-        return self._poll_results_langdeps
+        return self._player_suggestion

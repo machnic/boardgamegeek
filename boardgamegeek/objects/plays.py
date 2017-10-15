@@ -1,11 +1,11 @@
 # coding: utf-8
 """
-:mod:`boardgamegeek2.objects.plays` - Classes for storing plays/play sessions data
-=================================================================================
+:mod:`boardgamegeek.plays` - BoardGameGeek "Plays"
+==================================================
 
-.. module:: boardgamegeek2.objects.plays
+.. module:: boardgamegeek.plays
    :platform: Unix, Windows
-   :synopsis: classes for plays/play sessions data
+   :synopsis: classes for handling plays/play sessions
 
 .. moduleauthor:: Cosmin Luță <q4break@gmail.com>
 
@@ -14,23 +14,20 @@ from __future__ import unicode_literals
 from copy import copy
 import datetime
 
-from boardgamegeek2.exceptions import BGGError
-from boardgamegeek2.utils import DictObject
+from boardgamegeek.exceptions import BGGError
+from boardgamegeek.utils import DictObject
 
 
-class PlaySessionPlayer(DictObject):
+class PlaysessionPlayer(DictObject):
     """
     Class representing a player in a play session
 
     :param dict data: a dictionary containing the collection data
-    :raises: :py:class:`boardgamegeek2.exceptions.BoardGameGeekError` in case of invalid data
+    :raises: :py:class:`boardgamegeek.exceptions.BoardGameGeekError` in case of invalid data
     """
 
     def __init__(self, data):
-        super(PlaySessionPlayer, self).__init__(data)
-
-    def __repr__(self):
-        return "PlaySessionPlayer (name: {})".format(self.username)
+        self._data = data
 
     @property
     def username(self):
@@ -60,7 +57,7 @@ class PlaySessionPlayer(DictObject):
         return self._data.get("name")
 
     @property
-    def start_pos(self):
+    def startposition(self):
         """
         :return:
         :rtype:
@@ -119,7 +116,7 @@ class PlaySession(DictObject):
     Container for a play session information.
 
     :param dict data: a dictionary containing the collection data
-    :raises: :py:class:`boardgamegeek2.exceptions.BoardGameGeekError` in case of invalid data
+    :raises: :py:class:`boardgamegeek.exceptions.BoardGameGeekError` in case of invalid data
     """
 
     def __init__(self, data):
@@ -136,12 +133,9 @@ class PlaySession(DictObject):
                     kw["date"] = None
 
         # create "nice" dictionaries out of plain ones, so you can .dot access stuff.
-        self._players = [PlaySessionPlayer(player) for player in kw.get("players", [])]
+        self._players = [PlaysessionPlayer(player) for player in kw.get("players", [])]
 
         super(PlaySession, self).__init__(kw)
-
-    def __repr__(self):
-        return "PlaySession (id: {})".format(self.id)
 
     def _format(self, log):
         log.info("play id         : {}".format(self.id))
@@ -292,16 +286,13 @@ class Plays(DictObject):
     def plays(self):
         """
         :return: play sessions
-        :rtype: list of :py:class:`boardgamegeek2.plays.PlaySession`
+        :rtype: list of :py:class:`boardgamegeek.plays.PlaySession`
         """
         return self._plays
 
     @property
     def plays_count(self):
         """
-        Return the number of plays, as reported by the server. This could be different from the result of len() on
-        this object, which returns the number of plays in this object.
-
         :return: plays count, as reported by the server
         :rtype: integer
         """
@@ -316,9 +307,6 @@ class UserPlays(Plays):
         for p in self.plays:
             p._format(log)
             log.info("")
-
-    def __repr__(self):
-        return "UserPlays (user_id: {})".format(self.user_id)
 
     def add_play(self, data):
         kw = copy(data)
@@ -339,7 +327,7 @@ class UserPlays(Plays):
     def user_id(self):
         """
         :return: id of the playlist owner
-        :rtype: int
+        :rtype: integer
         :return: ``None`` if this is the playlist of a game (not an user's)
         """
         return self._data.get("user_id")
@@ -354,9 +342,6 @@ class GamePlays(Plays):
             p._format(log)
             log.info("")
 
-    def __repr__(self):
-        return "GamePlays (game_id: {})".format(self.game_id)
-
     def add_play(self, data):
         self._plays.append(PlaySession(data))
 
@@ -364,7 +349,7 @@ class GamePlays(Plays):
     def game_id(self):
         """
         :return: id of the game this plays list belongs to
-        :rtype: int
+        :rtype: integer
         :return: ``None`` if this list is that of an user
         """
         return self._data.get("game_id")

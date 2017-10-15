@@ -2,8 +2,8 @@ import datetime
 import time
 
 from _common import *
-from boardgamegeek2 import BGGError, BGGValueError, BGGItemNotFoundError
-from boardgamegeek2.objects.plays import UserPlays, GamePlays, PlaySession, Plays
+from boardgamegeek import BGGError, BGGValueError, BGGItemNotFoundError
+from boardgamegeek.objects.plays import UserPlays, GamePlays, PlaySession, Plays
 
 
 progress_called = False

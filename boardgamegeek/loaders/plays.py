@@ -5,7 +5,7 @@ from ..exceptions import BGGItemNotFoundError
 from ..utils import xml_subelement_text, xml_subelement_attr
 
 
-log = logging.getLogger("boardgamegeek2.loaders.plays")
+log = logging.getLogger("boardgamegeek.loaders.plays")
 
 
 def create_plays_from_xml(xml_root, game_id=None):
